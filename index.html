@@ -1,0 +1,1348 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sala do Vereador: painel de fiscalização de Ibatiba/ES | Rafael Partelli</title>
+<meta name="description" content="Painel de fiscalização para vereadores: indicadores do TCE-ES, receitas e despesas mês a mês, licitações, dispensas, contratos e editais abertos. Piloto com Ibatiba, Espírito Santo.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://partelli.pro/vereador/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://partelli.pro/vereador/">
+<meta property="og:title" content="Sala do Vereador: painel de fiscalização de Ibatiba/ES">
+<meta property="og:description" content="Indicadores, processos e contratações de Ibatiba/ES em uma tela para o vereador fiscalizar. Piloto.">
+<link rel="icon" type="image/png" href="/img/favicon.png">
+<meta name="theme-color" content="#0C326F">
+<link rel="stylesheet" href="/assets/base.css?v=2">
+<link rel="stylesheet" href="/assets/v2.css?v=2bf36495">
+<link rel="stylesheet" href="/assets/home-fx.css?v=926af7bd">
+<link rel="stylesheet" href="/assets/interna-fx.css?v=847b60a5">
+<style>
+.vp{--ok:#168821;--okbg:#E7F4E9;--warn:#8A5A00;--warnbg:#FFF3D6;--bad:#B3261E;--badbg:#FCE8E6;--ink:#1F2933;--mut:#52606D;--ln:#D9E2EC;--bl:#1351B4;--bl2:#0C326F}
+.vp *{box-sizing:border-box}
+.vhero{background:linear-gradient(135deg,#0C326F 0%,#1351B4 100%);color:#fff;padding:28px 0 34px}
+.vhero a{color:#fff}
+.vhero-top{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.vflag{width:84px;height:auto;border-radius:6px;border:2px solid rgba(255,255,255,.85);background:#fff;flex:none}
+.vhero h1{margin:0;font-size:clamp(26px,4.4vw,38px);line-height:1.12;color:#fff}
+.vhero .sub{margin:6px 0 0;font-size:16px;opacity:.95;max-width:62ch}
+.vtag{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:3px 11px;font-size:12.5px;font-weight:700;margin-bottom:8px}
+.vupd{margin:18px 0 0;background:#FFF3D6;color:#4A3200;border-radius:10px;padding:10px 14px;font-size:13.5px;line-height:1.45}
+.vupd b{color:#4A3200}
+.vkpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:20px}
+.vk{background:#fff;color:var(--ink);border-radius:14px;padding:16px 16px 14px;box-shadow:0 4px 18px rgba(12,50,111,.22);border-top:6px solid var(--ln)}
+.vk.ok{border-top-color:var(--ok)}.vk.warn{border-top-color:#E8A200}.vk.bad{border-top-color:var(--bad)}
+.vk h3{margin:0;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--mut)}
+.vk .big{font-size:34px;font-weight:800;line-height:1.1;margin:6px 0 2px;color:var(--bl2)}
+.vk .st{display:inline-block;font-size:12px;font-weight:800;border-radius:999px;padding:2px 9px;margin:4px 0}
+.vk.ok .st{background:var(--okbg);color:var(--ok)}.vk.warn .st{background:var(--warnbg);color:var(--warn)}.vk.bad .st{background:var(--badbg);color:var(--bad)}
+.vk p{margin:6px 0 0;font-size:13px;color:var(--mut);line-height:1.4}
+.gauge{position:relative;height:10px;background:#EEF2F7;border-radius:6px;margin:12px 0 4px;overflow:visible}
+.gauge i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--bl)}
+.gauge u{position:absolute;top:-4px;bottom:-4px;width:2px;background:#1F2933;text-decoration:none}
+.glab{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut)}
+.vsec{padding:34px 0}.vsec.alt{background:#F4F7FB}
+.vsec h2{margin:0 0 6px;font-size:clamp(21px,3.2vw,27px);color:var(--bl2)}
+.vsec .lead{margin:0 0 18px;color:var(--mut);max-width:78ch;font-size:15.5px;line-height:1.55}
+.vgrid{display:grid;gap:18px;grid-template-columns:1fr 1fr}
+@media(max-width:860px){.vgrid{grid-template-columns:1fr}}
+.vcard{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:16px}
+.vcard h3{margin:0 0 4px;font-size:16px;color:var(--bl2)}
+.vcard .cap{margin:0 0 10px;font-size:13px;color:var(--mut)}
+.vctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 10px}
+.vctl label{font-size:13px;font-weight:700;color:var(--ink)}
+.vctl select,.vctl input{font:inherit;font-size:14px;padding:7px 10px;border:1px solid #9AA5B1;border-radius:8px;background:#fff;color:var(--ink);min-height:38px}
+.vchart svg{width:100%;height:auto;display:block}
+.vleg{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin:6px 0 0}
+.vleg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.hb{display:grid;grid-template-columns:minmax(120px,38%) 1fr auto;gap:8px;align-items:center;font-size:13.5px;margin:7px 0}
+.hb .t{background:#EEF2F7;border-radius:5px;height:14px;position:relative}
+.hb .t i{position:absolute;left:0;top:0;bottom:0;background:var(--bl);border-radius:5px}
+.hb .n{font-variant-numeric:tabular-nums;color:var(--mut);white-space:nowrap}
+.vmap{position:relative}
+.vmap svg{width:100%;height:auto;max-height:560px;display:block;background:#F8FAFD;border-radius:10px;border:1px solid var(--ln)}
+.vmap path{stroke:#fff;stroke-width:.6;cursor:pointer}
+.vmap path:hover{stroke:#0C326F;stroke-width:1.4}
+.vmap path.me{stroke:#0C326F;stroke-width:2}
+.vtip{position:absolute;pointer-events:none;background:#0C326F;color:#fff;border-radius:8px;padding:7px 10px;font-size:12.5px;line-height:1.35;display:none;z-index:5;max-width:220px}
+.vsw{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;margin:8px 0 0;color:var(--ink)}
+.vsw span i{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:5px;vertical-align:-2px;border:1px solid rgba(0,0,0,.15)}
+.c-ok{background:#2E9E45}.c-w1{background:#F2C94C}.c-bad{background:#D64545}.c-na{background:#CBD2D9}
+.vtabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.vtabs button{font:inherit;font-weight:700;font-size:14px;padding:9px 14px;border-radius:999px;border:1px solid #9AA5B1;background:#fff;color:var(--bl2);cursor:pointer;min-height:40px}
+.vtabs button[aria-selected=true]{background:var(--bl2);border-color:var(--bl2);color:#fff}
+.vsum{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+.vsum div{background:#fff;border:1px solid var(--ln);border-radius:10px;padding:8px 12px;font-size:13px;color:var(--mut)}
+.vsum b{display:block;font-size:19px;color:var(--bl2)}
+.vtw{overflow-x:auto;border:1px solid var(--ln);border-radius:12px;background:#fff}
+table.vt{width:100%;border-collapse:collapse;font-size:13.5px}
+.vt th{position:sticky;top:0;background:#EAF0F9;text-align:left;padding:9px 10px;font-size:12.5px;color:var(--bl2);white-space:nowrap}
+.vt td{padding:9px 10px;border-top:1px solid #E6ECF3;vertical-align:top}
+.vt td.r,.vt th.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.vt tr:hover td{background:#F7FAFF}
+.sit{display:inline-block;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:700;white-space:nowrap}
+.sit.ok{background:var(--okbg);color:var(--ok)}.sit.wn{background:var(--warnbg);color:var(--warn)}.sit.bd{background:var(--badbg);color:var(--bad)}.sit.nt{background:#EEF2F7;color:var(--mut)}
+.vmore{margin:10px 0 0;font-size:13px;color:var(--mut)}
+.vmore button{font:inherit;font-weight:700;color:var(--bl);background:none;border:0;cursor:pointer;text-decoration:underline;padding:4px}
+@media(max-width:720px){
+ .vt thead{display:none}
+ .vt,.vt tbody,.vt tr,.vt td{display:block;width:100%}
+ .vt tr{border-top:8px solid #F4F7FB;padding:6px 4px}
+ .vt td{border:0;padding:3px 8px;text-align:left!important}
+ .vt td[data-l]::before{content:attr(data-l) ": ";font-weight:700;color:var(--mut);font-size:12px}
+}
+.ed{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.ed article{background:#fff;border:1px solid var(--ln);border-left:4px solid var(--ok);border-radius:10px;padding:13px;font-size:13.5px}
+.ed article b{display:block;margin-bottom:3px}
+.ed article small{color:var(--mut);display:block;margin:2px 0 6px}
+.ed .val{font-weight:800;color:var(--bl2)}
+.gd{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
+.gd article{background:#fff;border:1px solid var(--ln);border-radius:12px;padding:15px;border-top:5px solid var(--bl)}
+.gd article.bad{border-top-color:var(--bad)}.gd article.warn{border-top-color:#E8A200}.gd article.ok{border-top-color:var(--ok)}
+.gd h3{margin:0 0 6px;font-size:16px;color:var(--bl2)}
+.gd p{margin:0 0 8px;font-size:14px;line-height:1.5}
+.gd .q{background:#F1F6FD;border-radius:8px;padding:8px 10px;font-size:13.5px}
+.gd .q b{color:var(--bl2)}
+.gd a{font-weight:700;font-size:13.5px}
+.vlinks{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.vlinks a{display:block;background:#fff;border:1px solid var(--ln);border-radius:12px;padding:14px;text-decoration:none;color:var(--ink)}
+.vlinks a:hover{border-color:var(--bl)}
+.vlinks b{display:block;color:var(--bl2);margin-bottom:3px}
+.vlinks small{color:var(--mut)}
+.vnote{font-size:12.5px;color:var(--mut);margin:12px 0 0;line-height:1.5}
+.vload{padding:18px;color:var(--mut);font-size:14px}
+.vp a:focus-visible,.vp button:focus-visible,.vp select:focus-visible,.vp input:focus-visible{outline:3px solid #FFBF47;outline-offset:2px}
+.vgrid2{grid-template-columns:1.25fr 1fr}
+@media(max-width:860px){.vgrid2{grid-template-columns:1fr}}
+.vp .vgrid>*,.vp .vcard{min-width:0}
+.vp{overflow-x:hidden}
+.hm{grid-template-columns:minmax(80px,16%) 1fr auto;align-items:center}
+.t2{display:grid;gap:4px}
+.hb .t i.d{background:#C2410C}
+.hm .n{text-align:right;line-height:1.35}
+.hm .n{min-width:176px}@media(max-width:560px){.hm{grid-template-columns:1fr}.hm .n{text-align:left;min-width:0}}
+.vmap path.c-ok{fill:#2E9E45}.vmap path.c-w1{fill:#F2C94C}.vmap path.c-bad{fill:#D64545}.vmap path.c-na{fill:#CBD2D9}
+.vmap path.c-ok:hover,.vmap path.c-w1:hover,.vmap path.c-bad:hover{filter:brightness(.92)}
+button.hf{width:100%;text-align:left;font:inherit;color:inherit;background:none;border:1px solid transparent;border-radius:8px;padding:5px 6px;cursor:pointer;margin:2px 0}
+button.hf:hover{background:#F1F6FD}
+button.hf[aria-pressed=true]{background:#E8F0FB;border-color:#9DB8E6}
+button.hf .t i{background:var(--bl)}
+button.hf[aria-pressed=true] .t i{background:var(--bl2)}
+.fpanel{border-top:5px solid var(--bl)}
+.fp-head{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;margin-bottom:12px}
+.fp-head h3{margin:0;font-size:22px;color:var(--bl2)}
+.fp-head p{margin:2px 0 0;font-size:13.5px;color:var(--mut)}
+.fp-k{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:0 0 14px}
+.fp-k div{background:#F4F7FB;border-radius:10px;padding:9px 12px;font-size:12.5px;color:var(--mut)}
+.fp-k b{display:block;font-size:20px;color:var(--bl2)}
+.fp-g{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+@media(max-width:860px){.fp-g{grid-template-columns:1fr}}
+.fp-g section{border:1px solid var(--ln);border-radius:12px;padding:12px;min-width:0}
+.fp-g h4{margin:0 0 6px;font-size:14.5px;color:var(--bl2)}
+.fp-g .hb{grid-template-columns:minmax(110px,42%) 1fr auto;font-size:13px}
+.fp-at{background:#FFF8E5;border:1px solid #F0DDA6;border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:14px}
+.fp-at b{color:#6B4A00}
+.fp-at ul{margin:6px 0 0;padding-left:18px}
+.fp-at li{margin:3px 0}
+
+button.vk{font:inherit;text-align:left;width:100%;cursor:pointer;border:0;border-top:6px solid var(--ln);display:block}
+button.vk.ok{border-top-color:var(--ok)}button.vk.warn{border-top-color:#E8A200}button.vk.bad{border-top-color:var(--bad)}
+button.vk .mais{display:block;margin-top:8px;font-size:12.5px;font-weight:700;color:var(--bl)}
+button.vk[aria-expanded=true]{outline:3px solid #FFBF47;outline-offset:2px}
+#kpanel,#pnDet{margin-top:16px;color:var(--ink)}
+.rk{display:inline-block;min-width:1.4em;color:var(--bl2)}
+.ptiles{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-bottom:16px}
+.pt{font:inherit;text-align:left;background:#fff;border:1px solid var(--ln);border-top:5px solid var(--bl);border-radius:12px;padding:12px;cursor:pointer;min-height:44px;color:var(--ink)}
+.pt .pn{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.02em;color:var(--mut);font-weight:700}
+.pt b{display:block;font-size:20px;color:var(--bl2);margin:4px 0 2px}
+.pt small{display:block;font-size:12.5px;color:var(--mut);line-height:1.35}
+.pt[aria-expanded=true]{background:#E8F0FB;border-color:#9DB8E6;border-top-color:var(--bl2)}
+.sb{display:grid;grid-template-columns:78px 1fr auto;gap:8px;align-items:center;margin:6px 0;font-size:13px}
+.sb .t{display:flex;background:#EEF2F7;border-radius:5px;height:18px;overflow:hidden}
+.sb .t i{display:block;height:100%}
+.sb .n{font-variant-numeric:tabular-nums;color:var(--mut);white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--mut);margin:8px 0 14px}
+.legend i,.dot{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.heat{margin-top:8px}
+table.ht{border-collapse:collapse;font-size:12.5px;width:100%;min-width:900px;font-variant-numeric:tabular-nums}
+.ht th,.ht td{padding:6px 7px;border-bottom:1px solid #E6ECF3;text-align:right;white-space:nowrap}
+.ht thead th{background:#EAF0F9;color:var(--bl2);position:sticky;top:0}
+.ht th[scope=row],.ht thead th:first-child{text-align:left;position:sticky;left:0;background:#fff;max-width:260px;white-space:normal;min-width:190px}
+.ht thead th:first-child{background:#EAF0F9;z-index:2}
+.ht .tt{font-weight:700;background:#F4F7FB}.ht tr.tot td,.ht tr.tot th{font-weight:800;border-top:2px solid var(--bl2)}
+.ht tr.dm th,.ht tr.dm td{color:var(--mut);font-style:italic}
+.ht .z{color:#9AA5B1}
+.btns2{margin:10px 0 0}.btns2 .hf{width:auto;border:1px solid #9AA5B1;font-weight:700;padding:9px 14px;color:var(--bl2)}
+@media(max-width:640px){.sb{grid-template-columns:62px 1fr}.sb .n{grid-column:1/-1;white-space:normal}.fp-k{grid-template-columns:1fr 1fr}}
+button.vk .kt{display:block;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--mut);font-weight:700}
+button.vk .big{display:block;font-size:30px;font-weight:800;line-height:1.1;margin:6px 0 2px;color:var(--bl2)}
+button.vk .kp{display:block;margin-top:6px;font-size:13px;color:var(--mut);line-height:1.4}
+button.vk .gauge{display:block}
+@media(max-width:640px){.ptiles{grid-template-columns:1fr 1fr}.pt b{font-size:17px}}
+.hb.hm .t i.d{background:#C2410C}
+.vunid{margin:14px 0 0;font-size:13px;color:#E6EEFB;line-height:1.5}.vunid b{color:#fff}
+.vpath{margin-top:16px;color:#fff;font-size:13px}.vpath b{display:block;margin-bottom:6px}
+.vpath ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;counter-reset:p}
+.vpath li{counter-increment:p}.vpath a{display:inline-block;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 12px;text-decoration:none;min-height:32px}
+.vpath a::before{content:counter(p) ". ";font-weight:800}.vpath a:hover{background:rgba(255,255,255,.28)}
+.chip{display:inline-block;background:#EAF0F9;color:var(--bl2);border-radius:999px;padding:1px 8px;font-size:12px;margin:4px 6px 0 0}
+.vp section[id]{scroll-margin-top:12px}
+@media(min-width:900px){.vkpis{grid-template-columns:repeat(3,1fr)}}
+
+/* ===== Identidade do partelli.pro ===== */
+.vhp{position:relative}.vhp .vflagb{position:absolute;left:14px;top:14px;width:84px;height:auto;border-radius:6px;border:3px solid #fff;background:#fff;box-shadow:0 4px 14px rgba(12,50,111,.35)}
+.hero .lead{color:#E6EEFB}
+.vsec{padding:56px 0}
+.vsec h2{font-size:clamp(24px,3vw,32px);line-height:1.2;color:#0C326F;margin:0 0 10px}
+.vsec .lead{color:var(--mut);font-size:17px;max-width:78ch}
+.vsec.alt{background:#F3F6FB}
+.vk,button.vk{background:#fff;border:1px solid #D5DDEA;border-top:4px solid #1351B4;border-radius:12px;box-shadow:none;padding:18px}
+.vk.ok,button.vk.ok{border-top-color:var(--ok)}.vk.warn,button.vk.warn{border-top-color:#E8A200}.vk.bad,button.vk.bad{border-top-color:var(--bad)}
+button.vk:hover{box-shadow:0 6px 18px rgba(12,50,111,.14)}
+.vcard{border-radius:12px;border-color:#D5DDEA}
+.vkpis{margin-top:14px}
+.vunid{color:#4B5563}.vunid b{color:#0C326F}
+.vpath{color:#0C326F}.vpath b{color:#0C326F}
+.vpath a{color:#0C326F;background:#fff;border:1px solid #D5DDEA}
+.vpath a:hover{background:#E6EEFB}
+.vupd{margin-top:0}
+@media(max-width:860px){.vsec{padding:40px 0}.vhp{max-width:340px;margin:0 auto}}
+.vk.ok .st,.sit.ok{color:#0F6D19}
+.ht .z{color:#6B7280}
+.ht tr.dm th,.ht tr.dm td{color:#3F4A56}
+.mbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.mbar select{min-width:260px;max-width:100%}
+#munView h3{margin:22px 0 8px;color:var(--bl2)}
+.mgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.mtile{background:#fff;border:1px solid var(--ln);border-top:4px solid var(--bl2);border-radius:12px;padding:14px}
+.mtile h4{margin:0 0 4px;font-size:14px;color:var(--mut)}.mtile .big{font-size:26px;font-weight:700;color:var(--bl)}
+.mtile .st{display:inline-block;font-size:12.5px;font-weight:700;margin:2px 0 6px}.mtile .st.ok{color:#0F6D19}.mtile .st.wn{color:#7A4B00}.mtile .st.bd{color:#A32020}
+.mtile p{margin:4px 0 0;font-size:13px;color:var(--mut)}
+.mcols{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.mand{background:#EEF3FB;border-radius:10px;padding:12px 14px;font-size:14px;margin:12px 0}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="/" aria-label="Rafael Partelli, início"><svg class="flag" viewBox="0 0 30 21" width="30" height="21" aria-hidden="true" focusable="false" style="margin-right:-4px"><rect width="30" height="21" fill="#009C3B"/><path d="M2.5 10.5L15 2.4L27.5 10.5L15 18.6Z" fill="#FFDF00"/><circle cx="15" cy="10.5" r="5.1" fill="#002776"/><path d="M9.95 11.9Q14.6 8.7 20.05 9.3" fill="none" stroke="#fff" stroke-width="1"/></svg><svg class="flag" viewBox="0 0 30 21" width="30" height="21" aria-hidden="true" focusable="false"><rect width="30" height="7" fill="#4C93D6"/><rect y="7" width="30" height="7" fill="#fff"/><rect y="14" width="30" height="7" fill="#F1A7BF"/><path d="M9 11.6Q15 8.4 21 11.6" fill="none" stroke="#2F6DB5" stroke-width="1.3" stroke-linecap="round"/></svg><span>Rafael Partelli</span></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" class="nav" aria-label="Principal">
+      <details class="dd"><summary>Salas</summary><div class="dd-panel">
+        <a class="dd-i" href="/gestor/"><span class="dd-tx"><b>Sala do Gestor</b><small>Secretários</small></span></a>
+        <a class="dd-i" href="/tce/"><span class="dd-tx"><b>Sala da Fiscalização</b><small>Agentes de controle</small></span></a>
+        <a class="dd-i" href="/vereador/" aria-current="page"><span class="dd-tx"><b>Sala do Vereador</b><small>Fiscalização municipal (piloto)</small></span></a>
+        <a class="dd-i" href="/gestor/recursos/"><span class="dd-tx"><b>Sala de Captação e OSCs</b><small>Captadores de recursos</small></span></a>
+        <a class="dd-i" href="/editais/"><span class="dd-tx"><b>Sala do Prestador de Serviços</b><small>Empresas</small></span></a>
+        <a class="dd-i" href="/profissionais/"><span class="dd-tx"><b>Sala do Profissional de Saúde</b><small>Operadores de CNES</small></span></a>
+        <a class="dd-i" href="/cidadao/"><span class="dd-tx"><b>Sala do Cidadão</b><small>Usuários do SUS</small></span></a>
+      </div></details>
+      <details class="dd"><summary>Painéis</summary><div class="dd-panel">
+        <a class="dd-i" href="/gestor/sala/"><span class="dd-tx"><b>Sala de Gestão Estratégica</b><small>Situação da saúde nos 27 estados</small></span></a>
+        <a class="dd-i" href="/gestor/recursos/"><span class="dd-tx"><b>Radar de Recursos SUS</b><small>Repasses, emendas e saldos</small></span></a>
+        <a class="dd-i" href="/gestor/radar/"><span class="dd-tx"><b>Radar Saúde</b><small>Portarias do Diário Oficial</small></span></a>
+        <a class="dd-i" href="/tce/"><span class="dd-tx"><b>Painel TCE-ES</b><small>Gastos em saúde no ES</small></span></a>
+        <a class="dd-i" href="/editais/"><span class="dd-tx"><b>Painel de Editais</b><small>Oportunidades abertas no PNCP</small></span></a>
+        <a class="dd-i" href="/gestor/biblioteca/"><span class="dd-tx"><b>Biblioteca do Gestor</b><small>Guias práticos em PDF</small></span></a>
+      </div></details>
+      <a href="/#sobre">Sobre</a>
+      <a href="/#servicos">Serviços</a>
+      <a href="/reuniao/" data-conv="nav_reuniao">Reunião online</a>
+      <a class="nav-cta" href="/#contato" data-conv="nav_contato">Falar comigo</a>
+    </nav>
+  </div>
+</header>
+<main id="conteudo">
+<nav class="crumbs wrap" aria-label="Você está aqui"><a href="/">Início</a> › <a href="/#salas">Salas</a> › <span>Sala do Vereador</span></nav>
+<div class="vp">
+
+<section class="hero" id="topo">
+  <div class="wrap hero-in">
+    <div class="hero-text">
+      <p class="eyebrow">Sala do Vereador · Piloto Ibatiba/ES</p>
+      <h1>Ibatiba/ES: painel de fiscalização 2026</h1>
+      <p class="lead">Indicadores do TCE-ES, folha de pagamento, receitas e despesas, licitações, atas e editais do portal da transparência, em uma única tela para o vereador saber onde perguntar.</p>
+      <div class="btns">
+        <a class="btn btn-primary" href="#mapa">Ver o mapa do ES</a>
+        <a class="btn btn-primary" href="#pessoal">Folha de pagamento</a>
+        <a class="btn btn-gold" href="#editais">Editais abertos</a>
+        <a class="btn btn-ghost" href="/#contato">Falar comigo</a>
+      </div>
+      <ul class="cred" aria-label="Fontes dos dados">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/></svg>TCE-ES, Painel de Controle</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V10M10 20V4M16 20v-7M2 20h20"/></svg>Portal da Transparência de Ibatiba</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/></svg>PNCP e Espírito Santo</li>
+      </ul>
+    </div>
+    <figure class="hero-photo vhp">
+      <img src="/img/rafael-partelli.jpg" width="720" height="900" alt="Rafael Partelli, administrador e gestor de saúde pública, de terno azul, sorrindo" fetchpriority="high">
+      <img class="vflagb" src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Bandeira_de_Ibatiba.svg" alt="Bandeira do município de Ibatiba, Espírito Santo" width="84" height="59" loading="eager" referrerpolicy="no-referrer">
+    </figure>
+  </div>
+</section>
+
+<section class="vsec" id="munBar" style="padding:22px 0 8px">
+  <div class="wrap">
+    <div class="vctl mbar"><label for="selMun"><b>Município</b></label><select id="selMun" aria-describedby="munInfo"><option value="3202454">Ibatiba</option></select></div>
+    <p class="vnote" id="munInfo">Ibatiba tem a análise completa. Os demais municípios trazem os mesmos grupos de dados em formato padronizado, lidos todos os dias do portal da transparência de cada prefeitura.</p>
+  </div>
+</section>
+<section class="vsec" id="munView" hidden>
+  <div class="wrap" id="munBody"></div>
+</section>
+
+<section class="vsec" id="resumo">
+  <div class="wrap">
+    <h2>Situação do município em seis números</h2>
+    <p class="lead">Toque em um quadro para abrir a análise, os dez maiores e as perguntas ao Executivo.</p>
+    <p class="vupd" id="upd" role="status"><b>Atualização:</b> carregando fontes...</p>
+    <div class="vkpis" id="kpis"></div>
+    <div class="vcard fpanel" id="kpanel" hidden aria-live="polite"></div>
+    <p class="vunid"><b>Como ler os valores:</b> <b>mi</b> = milhões de reais (R$ 1,50 mi = R$ 1.500.000); <b>mil</b> = milhares de reais (R$ 804,7 mil = R$ 804.700). A tabela de elementos de despesa está em R$ mil. Valores de licitação são os homologados.</p>
+    <nav class="vpath" aria-label="Caminho do recurso público"><b>Caminho do recurso:</b>
+      <ol>
+        <li><a href="#mapa">Onde Ibatiba está</a></li>
+        <li><a href="#pessoal">Folha de pagamento</a></li>
+        <li><a href="#evolucao">De onde vem e para onde vai</a></li>
+        <li><a href="#elementos">Em que se gasta</a></li>
+        <li><a href="#painel">Frentes estratégicas</a></li>
+        <li><a href="#processos">Como se contrata</a></li>
+        <li><a href="#atas">Atas e adesões</a></li>
+        <li><a href="#editais">Editais abertos</a></li>
+        <li><a href="#guia">Como fiscalizar</a></li>
+      </ol></nav>
+  </div>
+</section>
+
+<section class="vsec alt" id="mapa">
+  <div class="wrap">
+    <h2>Mapa do Espírito Santo: onde Ibatiba está</h2>
+    <p class="lead">Compare Ibatiba com os 78 municípios do estado. As cores seguem faixas de apoio visual ligadas aos limites legais de cada indicador. Passe o mouse ou toque em um município para ver os números.</p>
+    <div class="vgrid vgrid2">
+      <div class="vcard">
+        <div class="vctl"><label for="selInd">Indicador</label>
+          <select id="selInd">
+            <option value="2">Aplicação em saúde (% da receita de impostos)</option>
+            <option value="3">Aplicação em educação (% da receita de impostos)</option>
+            <option value="4">Despesa com pessoal do Executivo (% da RCL)</option>
+            <option value="5">Despesa corrente sobre receita corrente (%)</option>
+          </select></div>
+        <div class="vmap" id="vmap"><div class="vload">Carregando malha municipal do IBGE...</div><div class="vtip" id="tip"></div></div>
+        <div class="vsw" id="sw"></div>
+        <p class="vnote" id="mapNota"></p>
+      </div>
+      <div class="vcard">
+        <h3 id="rkTit">Ranking</h3>
+        <p class="cap">Lista equivalente ao mapa, para leitura e navegação por teclado.</p>
+        <div class="vctl"><label for="rkBusca">Buscar município</label><input id="rkBusca" type="search" placeholder="Digite o nome"></div>
+        <div class="vtw" style="max-height:430px;overflow:auto"><table class="vt" id="rkTab"><thead><tr><th class="r">#</th><th>Município</th><th class="r">Valor</th><th>Faixa</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="vsec" id="pessoal">
+  <div class="wrap">
+    <h2>Pessoal: folha e vínculos mês a mês</h2>
+    <p class="lead">Folha bruta e quantidade de vínculos por tipo, de janeiro a outubro de 2026 (novembro ainda não tem folha). Os valores são do portal e não coincidem com a despesa de pessoal da LRF, que o TCE-ES calcula com outros critérios. Nomes de servidores não são exibidos.</p>
+    <div class="vcard">
+      <div class="vctl"><label for="selVin">Vínculo (cargos e secretarias)</label><select id="selVin"><option value="T">Todos os vínculos</option><option value="E">Estatutários e estáveis</option><option value="C">Contratados</option><option value="M">Comissionados</option><option value="P">Eleitos e agentes políticos</option><option value="G">Estagiários</option><option value="O">Cedidos, pensionistas e inativos</option></select><label for="selPes">Barras mostram</label><select id="selPes"><option value="f">Valor da folha bruta</option><option value="n">Quantidade de vínculos</option></select></div>
+      <div id="chPes" class="schart" role="img" aria-label="Folha e vínculos por mês e por tipo de vínculo"></div>
+      <p class="legend" id="legPes"></p>
+      <div class="vtw"><table class="vt" id="pesTab"><thead></thead><tbody></tbody></table></div>
+      <div class="fp-at" id="pesAt"></div>
+      <div class="fp-g" id="pesGrid"></div>
+      <p class="vnote" id="pesNota">Fonte: portal de Ibatiba, servidores 2026. Vínculos: estatutários e estáveis, contratados, comissionados, eleitos, estagiários, e cedidos, pensionistas e inativos.</p>
+    </div>
+  </div>
+</section>
+
+<section class="vsec alt" id="evolucao">
+  <div class="wrap">
+    <h2>Receitas e despesas mês a mês</h2>
+    <p class="lead">Receita arrecadada comparada com a execução da despesa em cada competência de 2026. Novembro está parcial (dados até a data de consulta).</p>
+    <div class="vcard">
+      <h3>Evolução mensal</h3>
+      <p class="cap" id="capMensal"></p>
+      <div class="vctl"><label for="selSerie">Comparar receita com</label>
+        <select id="selSerie"><option value="3">Despesa liquidada</option><option value="4">Despesa paga</option><option value="2">Despesa empenhada</option></select></div>
+      <div class="vchart" id="chMensal" role="img" aria-label="Barras horizontais por mês comparando a receita arrecadada com a despesa selecionada"></div>
+      <div class="vleg"><span><i style="background:#1351B4"></i>Receita arrecadada</span><span><i style="background:#C2410C"></i><b id="legS">Despesa liquidada</b></span></div>
+      <p class="vnote">Empenho de janeiro inclui contratos de execução ao longo do ano, por isso o pico. O liquidado e o pago mostram o gasto efetivo.</p>
+    </div>
+    <div class="vgrid" style="margin-top:18px">
+      <div class="vcard">
+        <h3>Previsto x realizado (TCE-ES)</h3>
+        <p class="cap">Acumulado até outubro/2026</p>
+        <div id="rxd"></div>
+      </div>
+      <div class="vcard">
+        <h3>Origem da receita</h3>
+        <p class="cap" id="capOrigem"></p>
+        <div id="origem"></div>
+      </div>
+    </div>
+    <div class="vcard" style="margin-top:18px">
+      <h3>Para onde vai o dinheiro: despesa por função</h3>
+      <p class="cap" id="capFunc"></p>
+      <div id="funcao" role="group" aria-label="Funções de governo. Selecione uma para ver o detalhamento."></div>
+    </div>
+    <div id="fpanel" class="vcard fpanel" aria-live="polite" style="margin-top:18px"><div class="vload">Carregando detalhamento...</div></div>
+  </div>
+</section>
+
+<section class="vsec" id="elementos">
+  <div class="wrap">
+    <h2>Elementos de despesa mês a mês</h2>
+    <p class="lead">Despesa liquidada por elemento, em R$ mil, com sombreamento mais forte nos meses de maior valor de cada linha. Por padrão aparecem os dez maiores; os demais ficam agrupados.</p>
+    <div class="vcard">
+      <div class="vtw heat"><table class="ht" id="elTab"></table></div>
+      <p class="btns2"><button type="button" class="hf" id="elBtn">Mostrar todos os elementos</button></p>
+      <div class="fp-at" id="elAt"></div>
+      <h3 style="margin-top:16px">Por grupo de despesa</h3>
+      <div class="vtw heat"><table class="ht" id="grTab"></table></div>
+      <p class="vnote">Fonte: portal de Ibatiba, liquidações 2026. Valores em R$ mil. *Novembro parcial, até a data de consulta.</p>
+    </div>
+  </div>
+</section>
+
+<section class="vsec alt" id="painel">
+  <div class="wrap">
+    <h2>Painel estratégico</h2>
+    <p class="lead">Dez frentes para o vereador acompanhar. Toque em um quadro para ver os dez maiores, os pontos de atenção e as perguntas ao Executivo.</p>
+    <div class="ptiles" id="pnl"></div>
+    <div class="vcard fpanel" id="pnDet" hidden aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="vsec" id="processos">
+  <div class="wrap">
+    <h2>Processos de 2026 por competência</h2>
+    <p class="lead">Licitações, dispensas e maiores contratos lidos do portal da transparência de Ibatiba. Filtre por mês, unidade gestora (PMI: Prefeitura, FMS: Fundo Municipal de Saúde) ou palavra do objeto.</p>
+    <div class="vtabs" role="tablist" aria-label="Tipo de processo">
+      <button role="tab" aria-selected="true" data-tab="lic">Licitações</button>
+      <button role="tab" aria-selected="false" data-tab="disp">Dispensas</button>
+      <button role="tab" aria-selected="false" data-tab="ctr">Maiores contratos</button>
+    </div>
+    <div class="vctl">
+      <label for="fMes">Competência</label><select id="fMes"></select>
+      <label for="fUg">Unidade</label><select id="fUg"><option value="">Todas</option><option>PMI</option><option>FMS</option></select>
+      <label for="fTxt">Buscar</label><input id="fTxt" type="search" placeholder="objeto, nº ou favorecido">
+    </div>
+    <div class="vsum" id="sum"></div>
+    <div class="vtw"><table class="vt" id="tab"><thead></thead><tbody></tbody></table></div>
+    <p class="vmore" id="more"></p>
+    <p class="vnote" id="procNota"></p>
+    <div class="vcard" id="modCard" style="margin-top:18px">
+      <h3>Valor licitado por modalidade</h3>
+      <p class="cap">Escolha a modalidade para ver o valor homologado, o gráfico por mês de abertura e os dez maiores processos.</p>
+      <div class="vctl"><label for="selMod">Modalidade</label><select id="selMod"></select><label for="selModMes">Mês de abertura</label><select id="selModMes"></select></div>
+      <div class="fp-k" id="modSum"></div>
+      <div id="chMod"></div>
+      <div class="fp-g" id="modTop" style="grid-template-columns:1fr"></div>
+      <p class="vnote">Fonte: portal de Ibatiba. Valor homologado quando existe; processos sem homologação aparecem com valor zero. Dispensas usam o valor da dispensa.</p>
+    </div>
+  </div>
+</section>
+
+<section class="vsec alt" id="atas">
+  <div class="wrap">
+    <h2>Atas de registro de preços e adesões (caronas)</h2>
+    <p class="lead">A ata registra preços para compras futuras: o valor da ata é o teto estimado, não o gasto realizado. O acompanhamento mostra quanto foi registrado, quem concentra os valores e quais contratos nasceram de ata de outro órgão (adesão).</p>
+    <div class="vsum" id="atSum"></div>
+    <div class="vgrid2">
+      <div class="vcard">
+        <h3>Adesões declaradas pelo município em 2026</h3>
+        <p class="cap">Lista oficial "Íntegra das Atas de Adesão" do portal</p>
+        <div class="vtw"><table class="vt" id="atAd"><thead></thead><tbody></tbody></table></div>
+        <p class="vnote" id="atAdNota"></p>
+      </div>
+      <div class="vcard">
+        <h3>Concentração por fornecedor</h3>
+        <p class="cap" id="atConcCap"></p>
+        <div id="atConc"></div>
+        <p class="vnote">Valores registrados em atas de 2026, somados por fornecedor. Empresas com mais de uma ata aparecem com o número de atas.</p>
+      </div>
+    </div>
+    <div class="vcard" style="margin-top:18px">
+      <h3>Contratos de 2026 que citam ata no objeto</h3>
+      <p class="cap">Origem a confirmar no processo: podem ser adesão a ata de outro órgão ou contrato decorrente de ata própria</p>
+      <div class="vtw"><table class="vt" id="atCt"><thead></thead><tbody></tbody></table></div>
+    </div>
+    <h3 style="margin:22px 0 8px;color:var(--bl2)">Processos com atas em 2026</h3>
+    <p class="lead" style="margin-bottom:10px">Cada linha agrupa as atas de um mesmo processo. A tabela traz os processos com R$ 100 mil ou mais registrados; os demais estão somados nos totais acima e no portal.</p>
+    <div class="vctl">
+      <label for="atUg">Unidade</label><select id="atUg"><option value="">Todas</option><option value="P">PMI</option><option value="S">FMS</option></select>
+      <label for="atTipo">Origem</label><select id="atTipo"><option value="">Todas</option><option value="C">Consórcio</option><option value="E">Programa estadual (PERP)</option><option value="F">Ligada ao FNDE</option></select>
+      <label for="atTxt">Buscar</label><input id="atTxt" type="search" placeholder="objeto, nº ou fornecedor">
+    </div>
+    <div class="vtw"><table class="vt" id="atTab"><thead></thead><tbody></tbody></table></div>
+    <p class="vmore" id="atMore"></p>
+    <div class="gd" id="atGuia" style="margin-top:18px"></div>
+    <p class="vnote" id="atNota"></p>
+  </div>
+</section>
+
+<section class="vsec" id="editais">
+  <div class="wrap">
+    <h2>Painel de Editais: oportunidades abertas no PNCP</h2>
+    <p class="lead">Cópia do Painel de Editais do site, já filtrada para o município piloto (Ibatiba). Troque o município, a modalidade, a categoria ou o prazo. Serve para o vereador acompanhar abertura, participação de fornecedores e resultado.</p>
+    <div class="vctl">
+      <label for="edMun">Município</label><select id="edMun"></select>
+      <label for="edPrazo">Prazo</label><select id="edPrazo"><option value="a">Propostas abertas</option><option value="">Todos</option><option value="e">Encerrados</option></select>
+      <label for="edMod">Modalidade</label><select id="edMod"></select>
+      <label for="edCat">Categoria</label><select id="edCat"></select>
+      <label for="edOrd">Ordenar</label><select id="edOrd"><option value="p">Prazo mais próximo</option><option value="v">Maior valor</option><option value="r">Mais recentes</option></select>
+      <label for="edTxt">Buscar</label><input id="edTxt" type="search" placeholder="objeto, órgão ou número">
+    </div>
+    <div class="vsum" id="edSum"></div>
+    <div class="ed" id="edList"><div class="vload">Carregando editais...</div></div>
+    <p class="vmore" id="edMore"></p>
+    <p class="btns2" style="margin-top:14px"><a class="btn" href="/editais/">Abrir o Painel de Editais nacional</a></p>
+    <p class="vnote" id="edNota"></p>
+  </div>
+</section>
+
+<section class="vsec alt" id="guia">
+  <div class="wrap">
+    <h2>Guia de fiscalização: o que perguntar</h2>
+    <p class="lead">Cada ponto abaixo nasce de um número da própria tela. A leitura é técnica: indica onde pedir explicação ao Executivo e em qual consulta conferir. Não é conclusão de irregularidade.</p>
+    <div class="gd" id="guiaList"></div>
+    <div class="vcard" style="margin-top:18px">
+      <h3>Como formalizar o pedido</h3>
+      <p style="margin:6px 0">A Câmara exerce o controle externo do município com o auxílio do Tribunal de Contas (Constituição Federal, art. 31). Pedidos de informação podem ser feitos por requerimento, conforme o Regimento Interno da Câmara, e também pela Lei de Acesso à Informação (Lei 12.527/2011), que prevê resposta em até 20 dias, prorrogáveis por mais 10 mediante justificativa.</p>
+      <p style="margin:6px 0">Boa prática: pedir sempre o número do processo, o período e o formato de entrega (planilha), e registrar a resposta para comparar com o portal.</p>
+    </div>
+  </div>
+</section>
+
+<section class="vsec" id="fontes">
+  <div class="wrap">
+    <h2>Fontes e consultas oficiais</h2>
+    <div class="vlinks">
+      <a href="https://ibatiba-es.portaltp.com.br/" target="_blank" rel="noopener"><b>Portal da Transparência de Ibatiba</b><small>Licitações, dispensas, contratos, empenhos, receitas e pessoal.</small></a>
+      <a href="https://paineldecontrole.tcees.tc.br/municipio/2026/ibatiba/visaoGeral" target="_blank" rel="noopener"><b>Painel de Controle do TCE-ES</b><small>Saúde, educação, pessoal, dívida e limites do município.</small></a>
+      <a href="https://transparencia.es.gov.br/" target="_blank" rel="noopener"><b>Portal da Transparência do Estado</b><small>Repasses e convênios do governo estadual.</small></a>
+      <a href="https://ibatiba-es.portaltp.com.br/consultas/compras/licitacoes.aspx" target="_blank" rel="noopener"><b>Licitações no portal</b><small>Consulta completa, com anexos e atas.</small></a>
+      <a href="https://ibatiba-es.portaltp.com.br/consultas/despesas/obras.aspx" target="_blank" rel="noopener"><b>Obras no portal</b><small>Situação e valores das obras do município.</small></a>
+      <a href="https://ibatiba-es.portaltp.com.br/consultas/repasses/emendasParlamentares.aspx" target="_blank" rel="noopener"><b>Emendas parlamentares</b><small>Recursos recebidos por indicação.</small></a>
+    </div>
+    <p class="vnote" id="fontesNota"></p>
+    <p class="vnote">Bandeira de Ibatiba: Junior Silva Rodriguess, Wikimedia Commons, licença <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Malha municipal: IBGE. Plataforma técnica e apartidária, sem posicionamento político. Dados públicos oficiais, sujeitos a revisão pela fonte.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div>
+      <p><b>Rafael Tartaglias Partelli</b><br>Administrador · CRA/ES 15721 · Espírito Santo</p>
+      <p><a href="https://www.linkedin.com/in/rafael-partelli-103a7728" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://www.instagram.com/rafaelpartelli" target="_blank" rel="noopener">Instagram</a></p>
+    </div>
+    <div><p><b>Salas</b></p><p><a href="/gestor/">Sala do Gestor</a></p><p><a href="/tce/">Sala da Fiscalização</a></p><p><a href="/vereador/">Sala do Vereador</a></p><p><a href="/gestor/recursos/">Sala de Captação e OSCs</a></p><p><a href="/editais/">Sala do Prestador de Serviços</a></p><p><a href="/profissionais/">Sala do Profissional de Saúde</a></p><p><a href="/cidadao/">Sala do Cidadão</a></p></div>
+    <div><p><b>Painéis</b></p>
+      <p><a href="/gestor/sala/">Sala de Gestão Estratégica</a></p>
+      <p><a href="/gestor/recursos/">Radar de Recursos SUS</a></p>
+      <p><a href="/gestor/radar/">Radar Saúde</a></p>
+      <p><a href="/tce/">Painel TCE-ES</a></p>
+      <p><a href="/editais/">Painel de Editais</a></p>
+      <p><a href="/gestor/biblioteca/">Biblioteca do Gestor</a></p></div>
+  </div>
+  <div class="wrap">
+    <p id="privacidade" class="lgpd">Aviso de privacidade (LGPD): este site não usa cookies de rastreamento nem armazena dados de formulário. Ao enviar uma mensagem, os dados informados são transmitidos por e-mail ou WhatsApp apenas para responder ao seu contato. Para solicitar informações ou exclusão de dados, escreva para rafael@partelli.pro. Os painéis usam dados públicos oficiais, com fonte e data de atualização informadas em cada bloco. Conteúdo informativo e técnico, sem posicionamento partidário.</p>
+    <p class="copy">© <span id="ano">2026</span> Rafael Partelli. Todos os direitos reservados.</p>
+  </div>
+</footer>
+<div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>if(window.VLibras){new window.VLibras.Widget('https://vlibras.gov.br/app');}</script>
+<script src="/assets/v2.js?v=dfefd8d2"></script>
+<script src="/assets/interna-fx.js?v=f027a85d" defer></script>
+<script>
+(function(){
+'use strict';
+var IB=3202454, V='20261123';
+var $=function(s){return document.querySelector(s)};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var nf=function(v,d){return Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})};
+var BRL=function(v){return Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})};
+var MI=function(v){return 'R$ '+nf(v/1e6,2)+' mi'};
+var PC=function(v,d){return nf(v,d==null?2:d)+'%'};
+var MES=['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+var MESL=['','Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+var DT=function(s){if(!s)return '';var p=String(s).slice(0,10).split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:s};
+function get(u){return fetch(u,{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error(u+' '+r.status);return r.json()})}
+
+var D=null, MAP=null;
+
+/* ---------- KPIs ---------- */
+function gauge(val,max,marks){
+  var w=Math.min(100,val/max*100);
+  var m=marks.map(function(k){return '<u style="left:'+(k.at/max*100)+'%" title="'+esc(k.l)+'"></u>'}).join('');
+  return '<div class="gauge" aria-hidden="true"><i style="width:'+w+'%"></i>'+m+'</div><div class="glab"><span>0%</span><span>'+marks.map(function(k){return esc(k.l)}).join(' · ')+'</span></div>';
+}
+function kpi(c){
+  return '<div class="vk '+c.cls+'"><h3>'+esc(c.t)+'</h3><div class="big">'+c.big+'</div><span class="st">'+esc(c.st)+'</span>'+c.g+'<p>'+c.p+'</p></div>';
+}
+function rkp(ci){var v=null;MAP.rows.forEach(function(r){if(r[0]===IB)v=r[ci]});var n=1;MAP.rows.forEach(function(r){if(r[ci]>v)n++});return n}
+function renderKpis(){
+  var t=D.tce, h=[];
+  var sd=t.saude.pct-t.saude.min;
+  h.push(kpi({t:'Saúde',cls:sd>=0?'ok':'bad',big:PC(t.saude.pct),st:sd>=0?'Acima do mínimo':'Abaixo do mínimo',g:gauge(t.saude.pct,45,[{at:15,l:'mín. 15%'}]),p:'Mínimo de 15% da receita de impostos (LC 141/2012, art. 7º). Folga de '+nf(sd,2)+' p.p. Posição entre os 78 municípios: '+rkp(2)+'º em percentual aplicado.'}));
+  var ed=t.edu.pct-t.edu.min;
+  h.push(kpi({t:'Educação',cls:ed<0?'bad':(ed<2?'warn':'ok'),big:PC(t.edu.pct),st:ed<0?'Abaixo do mínimo':(ed<2?'Margem estreita':'Acima do mínimo'),g:gauge(t.edu.pct,45,[{at:25,l:'mín. 25%'}]),p:'Mínimo de 25% da receita de impostos (CF, art. 212). Margem de '+nf(ed,2)+' p.p. Fundeb em remuneração do magistério: '+PC(t.edu.fundebMag)+' (referência legal de 70%, Lei 14.113/2020).'}));
+  var pe=t.pessoalExec;
+  h.push(kpi({t:'Pessoal do Executivo',cls:pe.pct>=pe.lim?'bad':(pe.pct>=pe.alerta?'warn':'ok'),big:PC(pe.pct),st:pe.pct>=pe.lim?'Acima do limite':(pe.pct>=pe.alerta?'Faixa de alerta':'Dentro do limite'),g:gauge(pe.pct,65,[{at:pe.alerta,l:'alerta 48,6%'},{at:pe.lim,l:'limite 54%'}]),p:'Percentual da receita corrente líquida (LRF, art. 20). Consolidado do município: '+PC(t.pessoalCons.pct)+' para limite de '+t.pessoalCons.lim+'%. Legislativo: '+PC(t.pessoalLeg.pct)+' para limite de '+t.pessoalLeg.lim+'%.'}));
+  var dr=t.despReceita;
+  h.push(kpi({t:'Despesa corrente / receita corrente',cls:dr.apurado>=dr.max?'bad':(dr.apurado>=dr.alerta?'warn':'ok'),big:PC(dr.apurado,0),st:dr.apurado>=dr.max?'Acima de 95%':(dr.apurado>=dr.alerta?'Faixa de alerta':'Confortável'),g:gauge(dr.apurado,105,[{at:dr.alerta,l:'alerta 85%'},{at:dr.max,l:'limite 95%'}]),p:'Acima de 85% o ente pode adotar medidas de ajuste, e em 95% valem as vedações (CF, art. 167-A). Quanto menor, maior a capacidade de investir.'}));
+  $('#kpis').innerHTML=h.join('');
+}
+
+/* ---------- Atualização ---------- */
+function renderUpd(){
+  var g=new Date(D.gerado);
+  var gs=isNaN(g)?'':g.toLocaleDateString('pt-BR')+' às '+g.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  $('#upd').innerHTML='<b>Atualização:</b> indicadores do TCE-ES acumulados até outubro/2026; portal de Ibatiba lido em '+esc(gs)+' (novembro parcial). Nesta fase piloto a atualização é feita sob demanda; a rotina diária automática é a próxima etapa. Valores sujeitos a revisão pela fonte oficial.';
+  $('#fontesNota').textContent='Diferenças entre o portal do município e o painel do TCE-ES são esperadas por critério contábil e data de corte. Em caso de divergência, vale a fonte oficial na data da consulta.';
+}
+
+/* ---------- Gráfico mensal ---------- */
+var WD=['pregao:pregão','concorrencia:concorrência','contratacao:contratação','solucao:solução','higienizacao:higienização','prestacao:prestação','destinacao:destinação','equipamentos:equipamentos','eletrodomesticos:eletrodomésticos','eletroeletronicos:eletroeletrônicos','eletroletronicos:eletroeletrônicos','especializada:especializada','futura:futura','gestao:gestão','administracao:administração','alienacao:alienação','assistencia:assistência','educacao:educação','saude:saúde','gestao:gestão','comercio:comércio','servicos:serviços','servico:serviço','judiciaria:judiciária','seguranca:segurança','publica:pública','publico:público','atencao:atenção','basica:básica','vigilancia:vigilância','epidemiologica:epidemiológica','sanitaria:sanitária','profilatico:profilático','terapeutico:terapêutico','divida:dívida','normatizacao:normatização','fiscalizacao:fiscalização','comunitaria:comunitária','comunitario:comunitário','crianca:criança','rodoviario:rodoviário','difusao:difusão','promocao:promoção','producao:produção','agropecuaria:agropecuária','agropecuarias:agropecuárias','preservacao:preservação','conservacao:conservação','acao:ação','hidricos:hídricos','salarios:salários','contribuicoes:contribuições','contribuicao:contribuição','previdenciarias:previdenciárias','juridica:jurídica','alimentacao:alimentação','generos:gêneros','medico:médico','medicos:médicos','odontologicos:odontológicos','hospitalares:hospitalares','combustiveis:combustíveis','locacao:locação','imoveis:imóveis','manutencao:manutenção','veiculos:veículos','tecnicos:técnicos','premiacoes:premiações','graficos:gráficos','eletrica:elétrica','restituicoes:restituições','convenios:convênios','convenio:convênio','precatorios:precatórios','sentenca:sentença','judiciais:judiciais','politicas:políticas','politica:política','transparencia:transparência','inclusao:inclusão','amortizacao:amortização','transferencias:transferências','transferencia:transferência','participacoes:participações','nao:não','uniao:união','petroleo:petróleo','iluminacao:iluminação','construcao:construção','aquisicao:aquisição','ambulancia:ambulância','pavimentacao:pavimentação','drenagem:drenagem','convivencia:convivência','subvencoes:subvenções','mobiliario:mobiliário','receitas:receitas','despesas:despesas','dados:dados','eletronico:eletrônico','estagiarios:estagiários','indenizacoes:indenizações','diarias:diárias','royalties:royalties','municipio:município','unico:único','prefeitura:prefeitura','vinculados:vinculados','especiais:especiais','civil:civil','exploracao:exploração','material:material','pessoa:pessoa','temporario:temporário','custeio:custeio','primaria:primária','cultura:cultura','desporto:desporto','deporto:desporto','urbanos:urbanos','infraestrutura:infraestrutura','ensino:ensino','historico:histórico','programa:programa','educacionais:educacionais','assistencial:assistencial','instituto:instituto','sao:são','associacao:associação','secretaria:secretaria','estado:estado','servicos:serviços','nacional:nacional','tribunal:tribunal','justica:justiça','espirito:espírito','santo:santo','cachoeiro:cachoeiro','ambiental:ambiental','residuos:resíduos','cidades:cidades','sociais:sociais','organizacao:organização','precos:preços','coordenacao:coordenação'].map(function(x){return x.split(':')});
+var WM={};WD.forEach(function(p){WM[p[0]]=p[1]});
+var WRE=new RegExp('\\b('+Object.keys(WM).join('|')+')\\b','gi');
+function ac(s){return String(s).replace(WRE,function(m){var a=WM[m.toLowerCase()];if(m===m.toUpperCase()&&m.length>1)return a.toUpperCase();if(m[0]===m[0].toUpperCase())return a.charAt(0).toUpperCase()+a.slice(1);return a})}
+function bars(el,rows,total,fmt){
+  var mx=Math.max.apply(null,rows.map(function(r){return r[1]}));
+  $(el).innerHTML=rows.map(function(r){
+    return '<div class="hb"><span>'+esc(ac(r[0]))+'</span><span class="t" aria-hidden="true"><i style="width:'+(r[1]/mx*100)+'%"></i></span><span class="n">'+fmt(r[1],total)+'</span></div>'}).join('');
+}
+function renderMensal(){
+  var idx=+$('#selSerie').value, nm={3:'Despesa liquidada',4:'Despesa paga',2:'Despesa empenhada'}[idx];
+  $('#legS').textContent=nm;
+  var rows=D.mensal, mx=0;rows.forEach(function(r){mx=Math.max(mx,r[1],r[idx])});
+  $('#chMensal').innerHTML=rows.map(function(r){
+    var d=r[idx]/r[1]*100;
+    return '<div class="hb hm"><span>'+MESL[r[0]]+(r[0]===11?'*':'')+'</span><span class="t2" aria-hidden="true"><span class="t"><i style="width:'+(r[1]/mx*100)+'%"></i></span><span class="t"><i class="d" style="width:'+(r[idx]/mx*100)+'%"></i></span></span><span class="n"><b style="color:#1351B4">'+MI(r[1])+'</b><br><b style="color:#C2410C">'+MI(r[idx])+'</b> ('+PC(d,0)+')</span></div>'}).join('');
+  var rt=0,dt=0;rows.forEach(function(r){rt+=r[1];dt+=r[idx]});
+  $('#capMensal').textContent='Janeiro a novembro (parcial): receita de '+MI(rt)+' e '+nm.toLowerCase()+' de '+MI(dt)+' ('+PC(dt/rt*100,1)+' da receita). Entre parênteses, a despesa como percentual da receita do mês. *Novembro parcial.';
+}
+function renderBlocos(){
+  var x=D.tce.rxd;
+  var rows=[['Receita prevista',x.recPrev],['Receita arrecadada',x.recArrec],['Despesa prevista',x.despPrev],['Despesa liquidada',x.despLiq]];
+  bars('#rxd',rows,x.recPrev,function(v,t){return MI(v)+' ('+PC(v/t*100,1)+')'});
+  var to=D.origem.reduce(function(a,r){return a+r[1]},0);
+  $('#capOrigem').textContent='Receita arrecadada em 2026 até a consulta: '+MI(to)+'. Transferências correntes representam '+PC(D.origem[0][1]/to*100,1)+', o que indica forte dependência de repasses de outros entes.';
+  bars('#origem',D.origem,to,function(v,t){return PC(v/t*100,1)});
+  renderFuncao();
+}
+
+/* ---------- Mapa ---------- */
+var IND={
+ 2:{n:'Aplicação em saúde',min:15,cut:function(v){return v<15?'bad':(v<20?'w1':'ok')},leg:[['bad','abaixo de 15% (mínimo legal)'],['w1','15% a 20%'],['ok','acima de 20%']],hi:true,nota:'Mínimo de 15% (LC 141/2012). Faixa amarela é critério visual da plataforma: até 5 p.p. acima do mínimo.'},
+ 3:{n:'Aplicação em educação',cut:function(v){return v<25?'bad':(v<30?'w1':'ok')},leg:[['bad','abaixo de 25% (mínimo legal)'],['w1','25% a 30%'],['ok','acima de 30%']],hi:true,nota:'Mínimo de 25% (CF, art. 212). Faixa amarela é critério visual da plataforma: até 5 p.p. acima do mínimo.'},
+ 4:{n:'Pessoal do Executivo (% da RCL)',cut:function(v){return v>54?'bad':(v>48.6?'w1':'ok')},leg:[['bad','acima de 54% (limite)'],['w1','48,6% a 54% (alerta)'],['ok','até 48,6%']],hi:false,nota:'Limite de 54% da RCL e alerta a partir de 90% do limite (LRF, arts. 20 e 59).'},
+ 5:{n:'Despesa corrente / receita corrente',cut:function(v){return v>=95?'bad':(v>=85?'w1':'ok')},leg:[['bad','95% ou mais'],['w1','85% a 95%'],['ok','abaixo de 85%']],hi:false,nota:'Referências de 85% e 95% (CF, art. 167-A), conforme o próprio Painel do TCE-ES.'}
+};
+var geo=null;
+function project(g){
+  var minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;
+  function each(c,f){if(typeof c[0]==='number')f(c);else c.forEach(function(k){each(k,f)})}
+  g.features.forEach(function(ft){each(ft.geometry.coordinates,function(p){minx=Math.min(minx,p[0]);maxx=Math.max(maxx,p[0]);miny=Math.min(miny,p[1]);maxy=Math.max(maxy,p[1])})});
+  var k=Math.cos(((miny+maxy)/2)*Math.PI/180), w=(maxx-minx)*k, h=maxy-miny, S=520/Math.max(w,h);
+  return {W:w*S+20,H:h*S+20,f:function(p){return [10+(p[0]-minx)*k*S,10+(maxy-p[1])*S]}};
+}
+function pathOf(geom,pr){
+  var polys=geom.type==='Polygon'?[geom.coordinates]:geom.coordinates, d='';
+  polys.forEach(function(poly){poly.forEach(function(ring){ring.forEach(function(p,i){var q=pr.f(p);d+=(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)});d+='Z'})});
+  return d;
+}
+function mapRow(code){var c=String(code).slice(0,7);for(var i=0;i<MAP.rows.length;i++){if(String(MAP.rows[i][0])===c)return MAP.rows[i]}return null}
+function renderMap(){
+  var ci=+$('#selInd').value, I=IND[ci];
+  $('#sw').innerHTML=I.leg.map(function(l){return '<span><i class="c-'+l[0]+'"></i>'+esc(l[1])+'</span>'}).join('')+'<span><i class="c-na"></i>sem dado</span>';
+  $('#mapNota').textContent=I.nota+' Fonte: '+MAP.ref+'.';
+  var sorted=MAP.rows.slice().sort(function(a,b){return I.hi?b[ci]-a[ci]:a[ci]-b[ci]});
+  var rankOf={};sorted.forEach(function(r,i){rankOf[r[0]]=i+1});
+  if(geo){
+    var pr=project(geo), s='<svg viewBox="0 0 '+pr.W.toFixed(0)+' '+pr.H.toFixed(0)+'" role="img" aria-label="Mapa do Espírito Santo colorido por '+esc(I.n)+'. A lista ao lado traz os mesmos dados.">';
+    geo.features.forEach(function(ft){
+      var code=ft.properties.codarea, r=mapRow(code), cl=r?I.cut(r[ci]):'na';
+      s+='<path class="c-'+cl+(r&&r[0]===IB?' me':'')+'" data-c="'+(r?r[0]:'')+'" d="'+pathOf(ft.geometry,pr)+'"></path>';
+    });
+    s+='</svg>';
+    var tip=$('#tip');$('#vmap').innerHTML=s;$('#vmap').appendChild(tip);
+    var svg=$('#vmap svg'), me=svg.querySelector('path.me'); if(me)svg.appendChild(me);
+    svg.querySelectorAll('path').forEach(function(p){
+      function show(e){var r=mapRow(p.getAttribute('data-c'));if(!r)return;var b=$('#vmap').getBoundingClientRect(),cx=(e.touches?e.touches[0].clientX:e.clientX)-b.left,cy=(e.touches?e.touches[0].clientY:e.clientY)-b.top;
+        tip.innerHTML='<b>'+esc(r[1])+'</b><br>'+esc(I.n)+': '+PC(r[ci])+'<br>Posição: '+rankOf[r[0]]+'º de '+MAP.rows.length;tip.style.display='block';tip.style.left=Math.min(cx+12,b.width-200)+'px';tip.style.top=(cy+12)+'px'}
+      p.addEventListener('mousemove',show);p.addEventListener('click',show);p.addEventListener('touchstart',show,{passive:true});
+      p.addEventListener('mouseleave',function(){tip.style.display='none'});
+    });
+  }else{$('#vmap').innerHTML='<div class="vload">Não foi possível carregar a malha do IBGE agora. A lista ao lado traz os mesmos dados.</div><div class="vtip" id="tip"></div>'}
+  $('#rkTit').textContent='Ranking: '+I.n;
+  window.__rk={rows:sorted,ci:ci,I:I,rank:rankOf};drawRank();
+}
+function drawRank(){
+  var R=window.__rk,q=($('#rkBusca').value||'').toLowerCase().trim(),h='';
+  R.rows.forEach(function(r){
+    if(q&&r[1].toLowerCase().indexOf(q)<0)return;
+    var cl=R.I.cut(r[R.ci]),lb={bad:'Atenção',w1:'Intermediária',ok:'Confortável'}[cl];
+    var cls={bad:'bd',w1:'wn',ok:'ok'}[cl];
+    h+='<tr'+(r[0]===IB?' style="background:#E8F0FB;font-weight:700"':'')+'><td class="r" data-l="Posição">'+R.rank[r[0]]+'</td><td data-l="Município">'+esc(r[1])+'</td><td class="r" data-l="Valor">'+PC(r[R.ci])+'</td><td data-l="Faixa"><span class="sit '+cls+'">'+lb+'</span></td></tr>';
+  });
+  $('#rkTab tbody').innerHTML=h||'<tr><td colspan="4">Nenhum município encontrado.</td></tr>';
+}
+
+/* ---------- Processos ---------- */
+var TAB='lic', LIMIT=40, SHOWN=LIMIT;
+var SIT_L={C:['Concluída','ok'],A:['Em andamento ou sem resultado','wn']};
+var SIT_C={V:['Vigente','ok'],T:['Terminado','nt'],R:['Rescindido','bd']};
+function today(){return new Date().toISOString().slice(0,10)}
+function rowsFor(){
+  var mes=$('#fMes').value,ug=$('#fUg').value,q=$('#fTxt').value.toLowerCase().trim(),out=[];
+  var src=D[TAB];
+  src.forEach(function(r){
+    var m=TAB==='ctr'?+r[1].slice(5,7):r[0], u=TAB==='ctr'?r[7]:r[1];
+    if(mes&&m!==+mes)return; if(ug&&u!==ug)return;
+    if(q){var tx=(r.join(' ')).toLowerCase();if(tx.indexOf(q)<0)return}
+    out.push(r);
+  });
+  return out;
+}
+function fillMes(){
+  var cnt={};D[TAB].forEach(function(r){var m=TAB==='ctr'?+r[1].slice(5,7):r[0];cnt[m]=(cnt[m]||0)+1});
+  var h='<option value="">Todo o ano ('+D[TAB].length+')</option>';
+  for(var m=1;m<=12;m++)if(cnt[m])h+='<option value="'+m+'">'+MESL[m]+(m===12?' (abertura futura)':'')+' ('+cnt[m]+')</option>';
+  $('#fMes').innerHTML=h;
+}
+function renderProc(){
+  var rows=rowsFor(),thead='',body='',vi=TAB==='lic'?8:(TAB==='disp'?7:6),tot=0;
+  rows.forEach(function(r){tot+=+r[vi]||0});
+  var nome={lic:'licitações',disp:'dispensas',ctr:'contratos'}[TAB];
+  var sum='<div><b>'+rows.length+'</b>'+nome+'</div><div><b>'+MI(tot)+'</b>valor '+(TAB==='lic'?'homologado':'total')+'</div>';
+  if(TAB==='lic'){var ab=rows.filter(function(r){return r[7]==='A'}).length;sum+='<div><b>'+ab+'</b>em andamento ou sem resultado</div>'}
+  if(TAB==='ctr'){var rs=rows.filter(function(r){return r[5]==='R'}).length;sum+='<div><b>'+rs+'</b>rescindidos</div>'}
+  $('#sum').innerHTML=sum;
+  if(TAB==='lic'){
+    thead='<tr><th>Mês</th><th>Processo</th><th>Unid.</th><th>Objeto</th><th>Abertura</th><th>Homologação</th><th>Situação</th><th class="r">Valor</th></tr>';
+    rows.slice(0,SHOWN).forEach(function(r){var s=SIT_L[r[7]]||['',''];
+      body+='<tr><td data-l="Mês">'+MES[r[0]]+'</td><td data-l="Processo"><b>'+esc(r[3])+'</b><br>'+esc(r[2])+'</td><td data-l="Unidade">'+esc(r[1])+'</td><td data-l="Objeto" title="'+esc(r[4])+'">'+esc(r[4])+'</td><td data-l="Abertura">'+DT(r[5])+'</td><td data-l="Homologação">'+(r[6]?DT(r[6]):'sem registro')+'</td><td data-l="Situação"><span class="sit '+s[1]+'">'+esc(s[0])+'</span></td><td class="r" data-l="Valor">'+(r[8]?BRL(r[8]):'sem valor')+'</td></tr>'});
+  }else if(TAB==='disp'){
+    thead='<tr><th>Mês</th><th>Nº</th><th>Unid.</th><th>Objeto</th><th>Base legal</th><th>Abertura</th><th class="r">Valor</th></tr>';
+    rows.slice(0,SHOWN).forEach(function(r){
+      body+='<tr><td data-l="Mês">'+MES[r[0]]+'</td><td data-l="Nº"><b>'+esc(r[2])+'</b></td><td data-l="Unidade">'+esc(r[1])+'</td><td data-l="Objeto" title="'+esc(r[3])+'">'+esc(r[3])+'</td><td data-l="Base legal">'+esc(r[4])+'</td><td data-l="Abertura">'+DT(r[5])+'</td><td class="r" data-l="Valor">'+BRL(r[7])+'</td></tr>'});
+  }else{
+    thead='<tr><th>Contrato</th><th>Assinatura</th><th>Favorecido</th><th>Objeto</th><th>Unid.</th><th>Situação</th><th class="r">Valor</th></tr>';
+    rows.slice(0,SHOWN).forEach(function(r){var s=SIT_C[r[5]]||['',''];
+      body+='<tr><td data-l="Contrato"><b>'+esc(r[0])+'</b></td><td data-l="Assinatura">'+DT(r[1])+'</td><td data-l="Favorecido">'+esc(r[2])+'<br><small>'+esc(r[3])+'</small></td><td data-l="Objeto" title="'+esc(r[4])+'">'+esc(r[4])+'</td><td data-l="Unidade">'+esc(r[7])+'</td><td data-l="Situação"><span class="sit '+s[1]+'">'+esc(s[0])+'</span></td><td class="r" data-l="Valor">'+BRL(r[6])+'</td></tr>'});
+  }
+  $('#tab thead').innerHTML=thead;
+  $('#tab tbody').innerHTML=body||'<tr><td colspan="8">Nenhum registro para o filtro escolhido.</td></tr>';
+  var more=rows.length>SHOWN?'Mostrando '+SHOWN+' de '+rows.length+'. <button type="button" id="btnMore">Mostrar mais</button>':(rows.length?'Mostrando todos os '+rows.length+' registros.':'');
+  $('#more').innerHTML=more;
+  var bm=$('#btnMore');if(bm)bm.onclick=function(){SHOWN+=LIMIT;renderProc()};
+  $('#procNota').textContent={
+   lic:'Valor homologado segundo o portal. Situação conforme o campo do portal: concluída ou em andamento. Objetos aparecem resumidos e com a grafia da fonte. Licitações de 2025 com resultado em 2026 aparecem na competência em que foram registradas.',
+   disp:'Dispensas de licitação com base na Lei 14.133/2021, art. 75. Valores e objetos conforme o portal.',
+   ctr:'Os 50 maiores contratos de 2026 por valor, entre os '+D.T.ctr+' registrados (soma de '+MI(D.T.ctrVal)+'). Pessoas físicas são mascaradas. Situação inicial conforme o portal; confirme no processo.'}[TAB];
+}
+function setTab(t){
+  TAB=t;SHOWN=LIMIT;
+  document.querySelectorAll('.vtabs button').forEach(function(b){b.setAttribute('aria-selected',b.getAttribute('data-tab')===t?'true':'false')});
+  $('#fMes').value='';fillMes();renderProc();
+}
+
+
+/* ---------- Atas e adesões ---------- */
+var AT=null, ATSHOWN=15, ATLIM=15;
+var ATT={C:'Consórcio',E:'Programa estadual',F:'FNDE'};
+function atRows(){
+  var ug=$('#atUg').value,tp=$('#atTipo').value,q=$('#atTxt').value.toLowerCase().trim();
+  return AT.grupos.filter(function(g){
+    if(ug&&g[2]!==ug)return false; if(tp&&g[10]!==tp)return false;
+    if(q&&(g.join(' ')).toLowerCase().indexOf(q)<0)return false; return true});
+}
+function atOc(s){if(!s)return '';var m={R:'rescindida',T:'terminada',X:'cancelada'},o=[];s.replace(/([RTX])(\d+)/g,function(_,a,n){o.push(n+' '+m[a]+(+n>1?'s':''))});return o.join(', ')}
+function renderAtas(){
+  var T=AT.T,sum='';
+  sum+='<div><b>'+T.atas+'</b>atas assinadas em 2026</div><div><b>'+MI(T.valor)+'</b>valor registrado (teto estimado)</div><div><b>'+T.processos+'</b>processos</div><div><b>'+T.fornecedores+'</b>fornecedores</div><div><b>'+PC(T.top5/T.valor*100,1)+'</b>nas 5 maiores empresas</div><div><b>'+T.big+'</b>atas acima de R$ 500 mil</div>';
+  $('#atSum').innerHTML=sum;
+  /* adesões */
+  var th='<tr><th>Data</th><th>Contrato</th><th>Ata de origem</th><th>Fornecedor</th><th>Objeto</th><th class="r">Valor</th></tr>',tb='',tot=0;
+  AT.adesoes.forEach(function(a){tot+=a[4];tb+='<tr><td data-l="Data">'+DT(a[0])+'</td><td data-l="Contrato"><b>'+esc(a[1])+'</b></td><td data-l="Ata de origem">'+esc(a[2])+'</td><td data-l="Fornecedor">'+esc(a[3])+'</td><td data-l="Objeto">'+esc(a[5])+'</td><td class="r" data-l="Valor">'+BRL(a[4])+'</td></tr>'});
+  tb+='<tr><td colspan="5"><b>Total das '+AT.adesoes.length+' adesões</b></td><td class="r"><b>'+BRL(tot)+'</b></td></tr>';
+  $('#atAd thead').innerHTML=th;$('#atAd tbody').innerHTML=tb;
+  $('#atAdNota').innerHTML='Contratos que o município publicou como adesão a ata de registro de preços em 2026. A ata de origem é de outro órgão (consórcio ou ente público), e o município não participou da licitação. Prévias de 2024 e 2025 estão na <a href="https://ibatiba-es.portaltp.com.br/consultas/documentos.aspx?id=77" target="_blank" rel="noopener">lista completa do portal</a>.';
+  /* concentração */
+  $('#atConcCap').textContent='Dez maiores fornecedores: '+PC(T.top10/T.valor*100,1)+' do valor registrado ('+MI(T.top10)+')';
+  $('#atConc').innerHTML=AT.top.map(function(r){var mx=AT.top[0][1];
+    return '<div class="hb"><span>'+esc(r[0])+(r[2]>1?' <small>('+r[2]+' atas)</small>':'')+'</span><span class="t" aria-hidden="true"><i style="width:'+(r[1]/mx*100)+'%"></i></span><span class="n">'+MI(r[1])+' · '+PC(r[1]/T.valor*100,1)+'</span></div>'}).join('');
+  /* contratos que citam ata */
+  var h2='<tr><th>Contrato</th><th>Fornecedor</th><th>Objeto</th><th class="r">Valor</th></tr>',b2='';
+  AT.ctrAta.forEach(function(c){b2+='<tr><td data-l="Contrato"><b>'+esc(c[0])+'</b></td><td data-l="Fornecedor">'+esc(c[1])+'</td><td data-l="Objeto">'+esc(c[3])+'</td><td class="r" data-l="Valor">'+BRL(c[2])+'</td></tr>'});
+  $('#atCt thead').innerHTML=h2;$('#atCt tbody').innerHTML=b2;
+  drawAtas();
+  /* guia */
+  var g=[
+   {c:'warn',t:'Adesão: justificativa e preço de mercado',p:'A Lei 14.133/2021, art. 86, §2º, exige para o órgão não participante a justificativa da vantagem da adesão, a comprovação de que os preços estão compatíveis com o mercado e a aceitação prévia do gerenciador e do fornecedor.',q:'O processo de cada adesão traz a justificativa e a pesquisa de preços atualizada? Quem assinou?',a:'https://ibatiba-es.portaltp.com.br/consultas/documentos.aspx?id=77',l:'Ver íntegra das adesões'},
+   {c:'warn',t:'Limites de quantidade',p:'Pelo art. 86, §4º e §5º, a adesão de cada órgão não pode superar 50% dos quantitativos registrados, e o total das adesões não pode passar do dobro do registrado por item. A adesão de R$ 850 mil para projetos do CIM Jequitinhonha é a maior de 2026.',q:'Qual o quantitativo da ata de origem e quanto já foi aderido por outros órgãos?',a:'https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm',l:'Ler a Lei 14.133/2021'},
+   {c:'bad',t:'Concentração em poucas atas',p:'Cinco empresas somam '+PC(T.top5/T.valor*100,1)+' do valor registrado em 2026 e duas atas passam de R$ 6 milhões cada. Valor registrado é teto, mas indica onde o município pode gastar mais.',q:'Quanto de cada ata maior já foi empenhado? O quantitativo registrado corresponde à demanda real?',a:'https://ibatiba-es.portaltp.com.br/consultas/compras/atas.aspx',l:'Ver atas no portal'},
+   {c:'ok',t:'Acompanhar a execução da ata',p:'Compare o valor registrado com o empenhado por favorecido e o saldo da ata. Atas rescindidas ou canceladas em 2026: '+(T.resc+T.canc)+', e terminadas: '+T.term+'.',q:'Há saldo vigente sem demanda? Existem itens com preço acima do mercado ou fornecedor com entrega atrasada?',a:'https://ibatiba-es.portaltp.com.br/consultas/despesas/empenhos.aspx',l:'Consultar empenhos'}];
+  $('#atGuia').innerHTML=g.map(function(x){return '<article class="'+x.c+'"><h3>'+esc(x.t)+'</h3><p>'+x.p+'</p><p class="q"><b>Pergunte:</b> '+esc(x.q)+'</p><a href="'+x.a+'" target="_blank" rel="noopener">'+esc(x.l)+' ↗</a></article>'}).join('');
+  $('#atNota').innerHTML='Fonte: '+esc(AT.fonte)+', consulta em '+DT(AT.gerado)+'. As atas aparecem por situação do portal. Fornecedores individuais não são identificados nesta tela. A classificação "Consórcio", "Programa estadual (PERP)" e "FNDE" vem do texto do objeto no portal. Atas de PERP somam '+AT.T.perp[0]+' registros de '+AT.T.perp[2]+' fornecedores em '+AT.T.perp[3]+' processos, '+BRL(AT.T.perp[1])+' no total.';
+}
+function drawAtas(){
+  var r=atRows(),th='<tr><th>Processo</th><th>Data</th><th>Unid.</th><th>Objeto</th><th class="r">Atas</th><th>Maior fornecedor</th><th class="r">Valor registrado</th></tr>',tb='';
+  r.slice(0,ATSHOWN).forEach(function(g){var oc=atOc(g[8]),tp=ATT[g[10]];
+    tb+='<tr><td data-l="Processo"><b>'+esc(g[0])+'</b></td><td data-l="Data">'+DT(g[1])+'</td><td data-l="Unidade">'+(g[2]==='S'?'FMS':'PMI')+'</td><td data-l="Objeto">'+esc(g[9])+(tp?' <span class="sit nt">'+tp+'</span>':'')+(oc?'<br><small>'+oc+'</small>':'')+'</td><td class="r" data-l="Atas">'+g[3]+(g[5]>1?'<br><small>'+g[5]+' fornec.</small>':'')+'</td><td data-l="Maior fornecedor">'+esc(g[6])+'<br><small>'+BRL(g[7])+'</small></td><td class="r" data-l="Valor registrado">'+BRL(g[4])+'</td></tr>'});
+  $('#atTab thead').innerHTML=th;
+  $('#atTab tbody').innerHTML=tb||'<tr><td colspan="7">Nenhum processo para o filtro escolhido.</td></tr>';
+  $('#atMore').innerHTML=r.length>ATSHOWN?'Mostrando '+ATSHOWN+' de '+r.length+'. <button type="button" id="atBtn">Mostrar mais</button>':(r.length?'Mostrando todos os '+r.length+' processos.':'');
+  var b=$('#atBtn');if(b)b.onclick=function(){ATSHOWN+=ATLIM;drawAtas()};
+}
+
+/* ---------- Editais ---------- */
+var ED=null, EDSHOWN=12, CATL={servicos_saude:'Serviços de saúde',material_hospitalar:'Material hospitalar',medicamentos:'Medicamentos',orgao_saude:'Órgão de saúde',equipamentos:'Equipamentos',obras_saude:'Obras de saúde',transporte_sanitario:'Transporte sanitário',alimentacao_nutricao:'Alimentação e nutrição'};
+function edDt(e){var d=new Date(e.encerramento);return isNaN(d)?null:d}
+function drawEditais(){
+  var hoje=new Date();hoje.setHours(0,0,0,0);
+  var mun=$('#edMun').value, md=$('#edMod').value, ct=$('#edCat').value, pz=$('#edPrazo').value, q=$('#edTxt').value.trim().toLowerCase(), ord=$('#edOrd').value;
+  var rows=ED.filter(function(e){
+    if(mun&&String(e.ibge)!==mun)return false;
+    if(md&&e.modalidade!==md)return false;
+    if(ct&&(e.cat||[]).indexOf(ct)<0)return false;
+    var d=edDt(e),ab=!d||d>=hoje;
+    if(pz==='a'&&!ab)return false;
+    if(pz==='e'&&ab)return false;
+    if(q&&(String(e.objeto||'')+' '+String(e.orgao||'')+' '+String(e.numero||'')+'/'+e.ano).toLowerCase().indexOf(q)<0)return false;
+    return true});
+  rows.sort(function(a,b){if(ord==='v')return (b.valor||0)-(a.valor||0);var x=edDt(a),y=edDt(b);return ord==='r'?((y?+y:0)-(x?+x:0)):((x?+x:9e15)-(y?+y:9e15))});
+  var tot=rows.reduce(function(s,e){return s+(+e.valor||0)},0), semv=rows.filter(function(e){return !e.valor}).length;
+  var nm=mun?(ED.filter(function(e){return String(e.ibge)===mun})[0]||{}).municipio:'Espírito Santo';
+  $('#edSum').innerHTML='<div><b>'+rows.length+'</b>editais em '+esc(nm||'')+'</div><div><b>'+MI(tot)+'</b>valor estimado</div><div><b>'+semv+'</b>sem valor informado</div><div><b>'+ED.length+'</b>editais na base do ES</div>';
+  var vis=rows.slice(0,EDSHOWN);
+  $('#edList').innerHTML=vis.length?vis.map(function(e){
+    var d=edDt(e), ab=!d||d>=hoje, cats=(e.cat||[]).map(function(c){return '<span class="chip">'+esc(CATL[c]||c)+'</span>'}).join('');
+    return '<article><b>'+esc(e.modalidade||'Edital')+' '+esc(e.numero||'')+'/'+esc(e.ano||'')+' <span class="sit '+(ab?'ok':'nt')+'">'+(ab?'Propostas abertas':'Encerrado')+'</span></b><small>'+esc(e.municipio||'')+' · '+esc(e.orgao||'')+(e.esfera?' · '+esc(e.esfera):'')+'</small>'+esc(String(e.objeto||'').slice(0,240))+'<br><span class="val">'+(e.valor?BRL(e.valor):'valor sigiloso ou não informado')+'</span> · propostas até '+(d?d.toLocaleDateString('pt-BR'):'consultar edital')+(e.srp?' · registro de preços':'')+'<br>'+cats+(e.link?' <a href="'+esc(e.link)+'" target="_blank" rel="noopener">Ver no PNCP</a>':'')+'</article>'}).join(''):'<div class="vload">Nenhum edital com esses filtros. Experimente trocar o prazo para "Todos" ou o município para "Todo o Espírito Santo".</div>';
+  $('#edMore').innerHTML=rows.length>EDSHOWN?'<button type="button" class="hf" id="edMoreB">Mostrar mais ('+(rows.length-EDSHOWN)+' restantes)</button>':'';
+  var mb=$('#edMoreB');if(mb)mb.onclick=function(){EDSHOWN+=12;drawEditais()};
+}
+function renderEditais(){
+  get('/editais/dados/uf/ES.json?v='+V).then(function(j){
+    ED=(j.editais||j||[]);
+    var cm={},cmd={},cc={};ED.forEach(function(e){cm[e.ibge]=[e.municipio,(cm[e.ibge]?cm[e.ibge][1]:0)+1];cmd[e.modalidade]=1;(e.cat||[]).forEach(function(c){cc[c]=1})});
+    var mh='<option value="">Todo o Espírito Santo</option>';
+    Object.keys(cm).sort(function(a,b){return a==String(IB)?-1:b==String(IB)?1:cm[a][0].localeCompare(cm[b][0])}).forEach(function(k){mh+='<option value="'+k+'"'+(k==String(IB)?' selected':'')+'>'+esc(cm[k][0])+(k==String(IB)?' (piloto)':'')+' ('+cm[k][1]+')</option>'});
+    if(!cm[IB])mh+='<option value="'+IB+'" selected>Ibatiba (piloto, sem editais na base)</option>';
+    $('#edMun').innerHTML=mh;
+    $('#edMod').innerHTML='<option value="">Todas</option>'+Object.keys(cmd).sort().map(function(k){return '<option>'+esc(k)+'</option>'}).join('');
+    $('#edCat').innerHTML='<option value="">Todas</option>'+Object.keys(cc).sort().map(function(k){return '<option value="'+k+'">'+esc(CATL[k]||k)+'</option>'}).join('');
+    ['edMun','edMod','edCat','edPrazo','edOrd'].forEach(function(i){$('#'+i).onchange=function(){EDSHOWN=12;drawEditais()}});
+    $('#edTxt').oninput=function(){EDSHOWN=12;drawEditais()};
+    drawEditais();
+    get('/editais/dados/meta.json?v='+V).then(function(m){var g=m.gerado||m.atualizado||m.atualizado_em||m.generated||m.updated;if(g){var x=new Date(g);$('#edNota').textContent='Base do Painel de Editais atualizada em '+(isNaN(x)?g:x.toLocaleDateString('pt-BR'))+'. Fonte: PNCP (Portal Nacional de Contratações Públicas). Escopo da base: editais da área da saúde, com propostas abertas na coleta.'}}).catch(function(){});
+  }).catch(function(){$('#edList').innerHTML='<div class="vload">Não foi possível ler a base de editais agora. Use o botão abaixo para abrir o painel completo.</div>'});
+}
+
+/* ---------- Guia ---------- */
+function renderGuia(){
+  var t=D.tce,to=D.origem.reduce(function(a,r){return a+r[1]},0),tr=D.origem[0][1]/to*100,cap=D.origem[3][1]/to*100;
+  var dispT=D.T.dispVal, licT=D.T.licVal, pctD=dispT/(dispT+licT)*100;
+  var resc=D.ctr.filter(function(r){return r[5]==='R'}), rescV=resc.reduce(function(a,r){return a+r[6]},0);
+  var sem=D.lic.filter(function(r){return r[7]==='A'&&!r[6]}).length;
+  var g=[];
+  g.push({c:'warn',t:'Folga fiscal para investir',p:'A despesa corrente consome '+PC(t.despReceita.apurado,0)+' da receita corrente, acima do ponto de alerta de 85% e a 2 p.p. do limite de 95%. Pessoal está em '+PC(t.pessoalExec.pct)+' da RCL (limite de 54%), o que indica que a pressão sobre o caixa não vem apenas da folha.',q:'Qual a projeção de fechamento de 2026 para a relação despesa/receita corrente? Existe plano de ajuste e quais contratos continuados pesam mais?',a:'https://paineldecontrole.tcees.tc.br/municipio/2026/ibatiba/visaoGeral',l:'Ver no Painel do TCE-ES'});
+  g.push({c:'warn',t:'Dependência de transferências',p:'Transferências correntes são '+PC(tr,1)+' da receita arrecadada e transferências de capital, '+PC(cap,1)+'. Receita de impostos próprios e contribuições soma '+PC((D.origem[1][1]+D.origem[4][1])/to*100,1)+'. A capacidade própria de investimento é limitada.',q:'Quais obras e compras de 2026 dependem de convênio, emenda ou transferência vinculada, e qual a contrapartida municipal?',a:'https://ibatiba-es.portaltp.com.br/consultas/receitas/execucaoReceitasAgrup.aspx',l:'Ver receitas no portal'});
+  g.push({c:t.edu.pct-t.edu.min<2?'warn':'ok',t:'Educação: margem curta no mínimo constitucional',p:'Aplicação de '+PC(t.edu.pct)+' contra mínimo de 25% (margem de '+nf(t.edu.pct-t.edu.min,2)+' p.p.). O Fundeb aplicado em remuneração do magistério está em '+PC(t.edu.fundebMag)+' no acumulado, abaixo da referência de 70%. A apuração legal é anual, então o fechamento de dezembro decide.',q:'Qual o plano para fechar 2026 com 70% do Fundeb em remuneração e acima de 25% em educação? Há pagamentos de abono ou reajuste previstos?',a:'https://paineldecontrole.tcees.tc.br/municipio/2026/ibatiba/visaoGeral',l:'Ver no Painel do TCE-ES'});
+  g.push({c:'ok',t:'Saúde: aplicação bem acima do mínimo',p:'Ibatiba aplica '+PC(t.saude.pct)+' em saúde, mais que o dobro do mínimo de 15% (posição '+rkp(2)+'ª entre os 78 municípios em percentual aplicado). A fiscalização útil aqui é de qualidade: o que compõe esse gasto e se chega ao atendimento.',q:'Quanto do gasto em saúde é serviço próprio, consórcio e credenciamento? Quais metas de acesso (consultas, exames, filas) acompanham o gasto?',a:'https://ibatiba-es.portaltp.com.br/consultas/compras/contratos.aspx',l:'Ver contratos no portal'});
+  g.push({c:'warn',t:'Dispensas de licitação',p:'Foram '+D.T.disp+' dispensas, somando '+MI(dispT)+' ('+PC(pctD,1)+' do que foi licitado mais dispensado). A maior é um contrato de programa com consórcio público, firmado pelo Fundo Municipal de Saúde em janeiro, por dispensa com base no art. 75, inciso XI.',q:'Pedir a lista de dispensas por objeto e fornecedor, para conferir o somatório por unidade gestora e objeto de mesma natureza (Lei 14.133/2021, art. 75, §1º), e os relatórios de execução do contrato de programa.',a:'https://ibatiba-es.portaltp.com.br/consultas/compras/dispensas.aspx',l:'Ver dispensas no portal'});
+  g.push({c:'warn',t:'Contratos rescindidos entre os maiores',p:'Entre os 50 maiores contratos, '+resc.length+' constam como rescindidos, somando '+MI(rescV)+'. O portal mostra, por exemplo, um contrato de portaria patrimonial rescindido em junho e um novo contrato do mesmo objeto em agosto, com valor maior.',q:'Qual o motivo de cada rescisão, houve penalidade ao contratado e como foi garantida a continuidade do serviço? Pedir o processo de rescisão e a nova pesquisa de preços.',a:'https://ibatiba-es.portaltp.com.br/consultas/compras/contratos.aspx',l:'Ver contratos no portal'});
+  g.push({c:'bad',t:'Licitações sem resultado registrado',p:sem+' licitações constam em andamento sem homologação e sem valor. Entre elas há serviços contínuos (limpeza pública, vigilância) que reaparecem em mais de um processo no ano.',q:'Os processos foram desertos, fracassados, revogados ou ainda correm? Qual contrato cobre hoje esses serviços e com que base legal?',a:'https://ibatiba-es.portaltp.com.br/consultas/compras/licitacoes.aspx',l:'Ver licitações no portal'});
+  g.push({c:'warn',t:'Obras de engenharia em curso',p:'Há concorrências eletrônicas abertas para reforma e ampliação de escolas, e um contrato de reforma da Casa Lar assinado em novembro. Obras exigem acompanhamento de cronograma e medição.',q:'Qual a fonte de recurso de cada obra (própria, convênio ou financiamento), o cronograma físico-financeiro e quem fiscaliza a execução?',a:'https://ibatiba-es.portaltp.com.br/consultas/despesas/obras.aspx',l:'Ver obras no portal'});
+  $('#guiaList').innerHTML=g.map(function(x){return '<article class="'+x.c+'"><h3>'+esc(x.t)+'</h3><p>'+x.p+'</p><p class="q"><b>Pergunta ao Executivo:</b> '+esc(x.q)+'</p><a href="'+esc(x.a)+'" target="_blank" rel="noopener">'+esc(x.l)+'</a></article>'}).join('');
+}
+
+
+/* ---------- Despesa por função com painel ---------- */
+var FD=null, FSEL=0;
+function money(v){return v>=1e6?MI(v):(v>=1e3?'R$ '+nf(v/1e3,1)+' mil':BRL(v))}
+function renderFuncao(){
+  var box=$('#funcao');
+  if(!FD){
+    var tf=D.funcao.reduce(function(a,r){return a+r[1]},0);
+    $('#capFunc').textContent='Despesa liquidada nas oito maiores funções: '+MI(tf)+'.';
+    bars('#funcao',D.funcao,tf,function(v,t){return MI(v)+' ('+PC(v/t*100,1)+')'});
+    $('#fpanel').innerHTML='<div class="vload">O detalhamento por função não pôde ser carregado agora.</div>';return;
+  }
+  var F=FD.funcoes, tot=F.reduce(function(a,f){return a+f.t},0), mx=F[0].t;
+  $('#capFunc').textContent='Despesa liquidada em todas as '+F.length+' funções: '+MI(tot)+' (o mesmo total da evolução mensal). Selecione uma função para abrir o detalhamento abaixo.';
+  box.innerHTML=F.map(function(f,i){return '<button type="button" class="hb hf" data-i="'+i+'" aria-pressed="'+(i===FSEL)+'"><span>'+esc(ac(f.n))+'</span><span class="t" aria-hidden="true"><i style="width:'+Math.max(.6,f.t/mx*100)+'%"></i></span><span class="n">'+money(f.t)+' ('+PC(f.t/tot*100,1)+')</span></button>'}).join('');
+  box.querySelectorAll('button').forEach(function(b){b.onclick=function(){FSEL=+b.getAttribute('data-i');box.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});drawPanel(true)}});
+  drawPanel(false);
+}
+function sect(t,rows,total,lab){
+  if(!rows||!rows.length)return '';
+  var mx=Math.max.apply(null,rows.map(function(r){return r[1]}));
+  return '<section><h4>'+esc(t)+'</h4>'+rows.map(function(r){return '<div class="hb"><span>'+esc(lab?lab(r[0]):ac(r[0]))+'</span><span class="t" aria-hidden="true"><i style="width:'+(r[1]/mx*100)+'%"></i></span><span class="n">'+money(r[1])+' ('+PC(r[1]/total*100,1)+')</span></div>'}).join('')+'</section>';
+}
+function shareOf(rows,re){var v=0;rows.forEach(function(r){if(re.test(r[0]))v+=r[1]});return v}
+function drawPanel(scroll){
+  var f=FD.funcoes[FSEL], T=FD.funcoes.reduce(function(a,x){return a+x.t},0);
+  var pes=shareOf(f.grp,/PESSOAL/), inv=shareOf(f.grp,/INVESTIMENTOS/), out=shareOf(f.grp,/OUTRAS DESPESAS/);
+  var ug=f.ug.map(function(u){return (u[0]==='FMS'?'Fundo Municipal de Saúde':'Prefeitura')+' ('+PC(u[1]/f.t*100,0)+')'}).join(' e ');
+  var mrows=[];f.m.forEach(function(v,i){if(v>0)mrows.push([MESL[i+1],v])});
+  var avg=mrows.length?f.t/mrows.length:0, pk=mrows.slice().sort(function(a,b){return b[1]-a[1]})[0];
+  var at=[];
+  var fv=f.fav.filter(function(x){return !/INSS|RECEITA FEDERAL|ESCELSA|CESAN/.test(x[0])})[0];
+  if(fv&&fv[1]/f.t>=.12)at.push('<b>'+esc(fv[0])+'</b> concentra '+PC(fv[1]/f.t*100,1)+' da despesa liquidada nesta função ('+money(fv[1])+'). Vale conferir contrato, medição e pesquisa de preços.');
+  if(pk&&mrows.length>3&&pk[1]>=2*avg)at.push('Pico em <b>'+pk[0].toLowerCase()+'</b>: '+money(pk[1])+', '+PC(pk[1]/f.t*100,0)+' do total do ano na função. Pedir a explicação do que foi liquidado no mês.');
+  if(pes/f.t>=.5)at.push('<b>'+PC(pes/f.t*100,0)+'</b> da função é pessoal e encargos. A margem para outras ações depende do que sobra fora da folha.');
+  if(inv/f.t>=.25)at.push('Investimentos somam <b>'+PC(inv/f.t*100,0)+'</b> da função ('+money(inv)+'). Conferir a fonte do recurso e o cronograma das obras.');
+  var conv=f.fo.filter(function(x){return /CONVENIO|PORTARIA|EMENDA|ALDIR/i.test(x[0])});
+  if(conv.length)at.push('Parte vem de recursos vinculados a convênio, portaria ou emenda: '+conv.slice(0,2).map(function(x){return esc(ac(x[0]).toLowerCase().slice(0,70))+' ('+money(x[1])+')'}).join('; ')+'. Conferir prazo de execução e prestação de contas.');
+  var h='<div class="fp-head"><div><h3>'+esc(ac(f.n))+'</h3><p>'+f.q.toLocaleString('pt-BR')+' liquidações em 2026 · '+esc(ug)+'</p></div><div style="text-align:right"><b style="font-size:26px;color:#0C326F">'+MI(f.t)+'</b><p>'+PC(f.t/T*100,1)+' da despesa liquidada total</p></div></div>';
+  h+='<div class="fp-k"><div><b>'+PC(pes/f.t*100,1)+'</b>Pessoal e encargos</div><div><b>'+PC(out/f.t*100,1)+'</b>Outras despesas correntes</div><div><b>'+PC(inv/f.t*100,1)+'</b>Investimentos</div><div><b>'+money(avg)+'</b>média mensal (meses com gasto)</div></div>';
+  if(at.length)h+='<div class="fp-at"><b>Pontos de atenção</b><ul>'+at.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div>';
+  h+='<div class="fp-g">'+sect('Evolução mensal',mrows,f.t,function(x){return x})+sect('Subfunção',f.sub,f.t)+sect('Natureza da despesa',f.grp,f.t)+sect('Principais elementos',f.el,f.t)+sect('Programas',f.pr,f.t)+sect('Fontes de recurso',f.fo,f.t)+sect('Maiores favorecidos (pessoas jurídicas e entes públicos)',f.fav,f.t,function(x){return x})+'</div>';
+  if(f.pf[1])h+='<p class="vnote">Favorecidos pessoa física (folha e outros pagamentos): '+money(f.pf[0])+' em '+f.pf[1].toLocaleString('pt-BR')+' liquidações, sem individualização nesta tela. INSS e tributos aparecem como favorecidos por serem recolhimentos.</p>';
+  h+='<p class="vnote">Fonte: '+esc(FD.fonte)+'. Rótulos conforme o portal, com acentuação restaurada. Percentuais sobre o total da função. <a href="https://ibatiba-es.portaltp.com.br/consultas/despesas/empenhos.aspx" target="_blank" rel="noopener">Consultar empenhos e liquidações no portal</a>.</p>';
+  $('#fpanel').innerHTML=h;
+  if(scroll)$('#fpanel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+
+/* ---------- Novas telas: cards com análise, pessoal, elementos, painel estratégico, modalidades ---------- */
+var P=null, KSEL='', PSEL='';
+var COR={E:'#1351B4',C:'#C2410C',M:'#168821',P:'#7A3E9D',G:'#0E7C86',O:'#6B7280'};
+var VL={E:'Estatutários e estáveis',C:'Contratados',M:'Comissionados',P:'Eleitos e agentes políticos',G:'Estagiários',O:'Cedidos, pensionistas e inativos'};
+var VK=['E','C','M','P','G','O'];
+function sum(a,i){var s=0;a.forEach(function(r){s+=r[i]});return s}
+function tl2(t,rows,total,fmt,unit){var s=tl(t,rows.slice(0,rows.length),total,fmt,unit);return s}
+function PF(a){return a.map(function(r){return [r[0],r[2],r[1]]})}
+function PQ(a){return a.map(function(r){return [r[0],r[1],null]})}
+function tl(t,rows,total,fmt,unit){
+  rows=(rows||[]).slice(0,/^Todas/.test(t)?99:10); if(!rows.length)return '';
+  var mx=Math.max.apply(null,rows.map(function(r){return Math.abs(r[1])||1}));
+  fmt=fmt||money;
+  return '<section><h4>'+esc(t)+'</h4>'+rows.map(function(r,i){return '<div class="hb"><span><b class="rk">'+(i+1)+'</b> '+esc(ac(r[0]))+'</span><span class="t" aria-hidden="true"><i style="width:'+Math.max(1,Math.abs(r[1])/mx*100)+'%"></i></span><span class="n">'+fmt(r[1])+(total?' ('+PC(r[1]/total*100,1)+')':'')+(r[2]!=null&&unit?' · '+r[2]+' '+unit:'')+'</span></div>'}).join('')+'</section>';
+}
+function ph(titulo,sub,kp,at,grid,nota){
+  var h='<div class="fp-head"><div><h3>'+esc(titulo)+'</h3><p>'+sub+'</p></div></div>';
+  if(kp&&kp.length)h+='<div class="fp-k">'+kp.map(function(k){return '<div><b>'+k[0]+'</b>'+esc(k[1])+'</div>'}).join('')+'</div>';
+  if(at&&at.length)h+='<div class="fp-at"><b>Pontos de atenção</b><ul>'+at.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div>';
+  h+='<div class="fp-g">'+grid+'</div>';
+  if(nota)h+='<p class="vnote">'+nota+'</p>';
+  return h;
+}
+function qb(t,txt){return '<section style="grid-column:1/-1"><h4>'+esc(t)+'</h4><p style="margin:0;font-size:14px;line-height:1.5">'+txt+'</p></section>'}
+function fnc(n){var r=null;(FD&&FD.funcoes||[]).forEach(function(f){if(f.n===n)r=f});return r}
+function mensalRows(){return D.mensal}
+
+/* --- Cards do município --- */
+function kdet(k){
+  var t=D.tce, rx=t.rxd, h='', M=D.mensal, tl_=sum(M,3), tp=sum(M,4), te=sum(M,2);
+  if(k==='rec'){
+    var orig=D.origem, to=sum(orig,1), dep=orig[0][1]/to*100, prop=0;orig.forEach(function(r){if(/^Impostos/i.test(r[0]))prop=r[1]});
+    return ph('Receita: de onde vem o dinheiro','Arrecadação acumulada até outubro (TCE-ES) e composição por origem (portal).',
+     [[money(rx.recArrec),'arrecadada'],[money(rx.recPrev),'previsão atualizada'],[PC(rx.recArrec/rx.recPrev*100,1),'da previsão realizada'],[PC(dep,1),'em transferências correntes'],[PC(prop/to*100,1),'em impostos e taxas próprios']],
+     ['Cerca de '+PC(dep,0)+' da receita vem de transferências. A receita tributária própria soma '+money(prop)+' ('+PC(prop/to*100,1)+'), o que deixa o município sensível a mudanças em FPM, Fundeb e repasses do SUS.','A previsão atual é a mesma da fixação da despesa ('+money(rx.despPrev)+'). Frustração de arrecadação exige limitação de empenho (LRF, art. 9º).'],
+     tl('Origem da receita',orig,to)+tl('Dez maiores transferências recebidas',P&&P.transf.top,to)+qb('Pergunte ao Executivo','Qual a meta de arrecadação própria (IPTU, ISS, ITBI e taxas) para 2027? O cadastro imobiliário está atualizado? Meta proposta, não resultado: elevar em 10% a receita tributária própria em um ano por atualização cadastral e cobrança da dívida ativa.'),
+     'Fonte: Painel de Controle do TCE-ES (acumulado até outubro/2026) e portal de Ibatiba. Transferências comparadas sobre a receita arrecadada total do portal ('+money(to)+').');
+  }
+  if(k==='desp'){
+    var fn=D.funcao.slice(0,10), tf=sum(D.funcao,1);
+    return ph('Despesa: onde o dinheiro é gasto','Despesa liquidada acumulada até outubro (TCE-ES) e execução registrada no portal.',
+     [[money(rx.despLiq),'liquidada'],[money(rx.despPrev),'dotação atualizada'],[PC(rx.despLiq/rx.despPrev*100,1),'da dotação executada'],[money(te),'empenhado no ano (portal)'],[money(tl_),'liquidado no ano (portal)']],
+     ['Despesa corrente sobre receita corrente em '+PC(t.despReceita.apurado,0)+': faixa de alerta a partir de 85% e vedações em 95% (CF, art. 167-A).','O maior favorecido é uma entidade de gestão em saúde e educação, com '+money(D.topFav[0][1])+' liquidados ('+PC(D.topFav[0][1]/tl_*100,1)+' do total).'],
+     tl('Dez maiores funções',fn,tf)+tl('Dez maiores favorecidos',D.topFav,tl_)+tl('Dez maiores elementos de despesa',P&&P.elem.rows.map(function(r){return [r[0],r[1]]}),tl_)+qb('Pergunte ao Executivo','Qual a projeção de fechamento do ano? Há despesas de 2026 que serão inscritas em restos a pagar? Meta proposta, não resultado: manter a despesa corrente abaixo de 90% da receita corrente até dezembro.'),
+     'Fonte: portal de Ibatiba, liquidações de 2026 até a data da consulta.');
+  }
+  if(k==='pes'){
+    var pe=t.pessoalExec, pc=t.pessoalCons;
+    return ph('Pessoal: folha e vínculos','Limite da LRF para o Executivo e composição da folha de outubro.',
+     [[PC(pe.pct),'Executivo (limite 54%)'],[PC(pc.pct),'consolidado (limite 60%)'],[money(pe.valor),'despesa de pessoal, 12 meses'],[money(P?sum(Object.keys(P.pessoal.mes[10]).map(function(x){return P.pessoal.mes[10][x]}),1):0),'folha bruta de outubro'],[(P?sum(Object.keys(P.pessoal.mes[10]).map(function(x){return P.pessoal.mes[10][x]}),0):0)+'','vínculos com pagamento em outubro']],
+     ['Alerta da LRF a partir de '+PC(pe.alerta,1)+' e limite prudencial em '+PC(pe.prud,1)+'. Ibatiba está '+nf(pe.alerta-pe.pct,1)+' p.p. abaixo do alerta.','A folha por vínculo, mês a mês, está na seção Pessoal.'],
+     tl('Dez maiores cargos por folha (outubro)',P&&PF(P.pessoal.topFolha),P&&sum(Object.keys(P.pessoal.mes[10]).map(function(x){return P.pessoal.mes[10][x]}),1),money,'vínculos')+tl('Todas as secretarias por folha (outubro)',P&&P.pessoal.secAll.map(function(r){return [r[0],r[2],r[1]]}),null,money,'vínculos')+qb('Pergunte ao Executivo','Qual a proporção de contratados temporários sobre o quadro? Há concurso previsto para substituir designações temporárias? Meta proposta, não resultado: reduzir em 10% as designações temporárias em dois anos com concurso público.'),
+     'Fonte: Painel de Controle do TCE-ES (limites) e portal de Ibatiba (servidores). Nomes de servidores não são exibidos.');
+  }
+  if(k==='sau'||k==='edu'){
+    var s=k==='sau', f=fnc(s?'Saude':'Educacao'), x=s?t.saude:t.edu;
+    var at=[];
+    if(s){at.push('Aplicação de '+PC(x.pct)+' contra mínimo de 15%: folga de '+nf(x.pct-15,2)+' p.p. Gasto per capita de '+BRL(x.percapita)+'.');
+      if(f&&f.fav&&f.fav[0])at.push('O maior favorecido da função é '+esc(ac(f.fav[0][0]).toLowerCase())+', com '+money(f.fav[0][1])+' ('+PC(f.fav[0][1]/f.t*100,1)+' da despesa da função). Confirme o instrumento que ampara esses pagamentos.')}
+    else{at.push('Aplicação de '+PC(x.pct)+' contra mínimo de 25%: margem de '+nf(x.pct-25,2)+' p.p.');
+      at.push('Fundeb em remuneração do magistério: '+PC(x.fundebMag)+' até outubro, abaixo da referência de 70% (Lei 14.113/2020). A apuração é anual, mas é preciso acompanhar até dezembro.')}
+    return ph(s?'Saúde: aplicação e principais gastos':'Educação: aplicação e principais gastos','Percentual do TCE-ES e detalhamento da função no portal.',
+     [[PC(x.pct),'aplicado (mínimo '+(s?'15%':'25%')+')'],[money(x.aplicado),'valor aplicado'],[f?money(f.t):'-','despesa total da função'],['#'+rkp(s?2:3)+' de 78','posição pelo percentual aplicado']],
+     at,
+     (f?tl('Dez maiores favorecidos',f.fav,f.t)+tl('Dez maiores elementos de despesa',f.el,f.t)+tl('Subfunções',f.sub,f.t)+tl('Fontes de recurso',f.fo,f.t):'')+qb('Pergunte ao Executivo',s?'Quais serviços são terceirizados e com que instrumento? Há fila de consultas e exames e qual o tempo de espera? Meta proposta, não resultado: publicar trimestralmente a fila e o tempo de espera por especialidade.':'Qual o plano para fechar o ano acima de 70% do Fundeb na remuneração? Qual a cobertura de creche e a meta do PNE? Meta proposta, não resultado: atingir 70% do Fundeb na remuneração do magistério até 31/12.'),
+     'Fonte: Painel de Controle do TCE-ES e portal de Ibatiba (liquidações por função).');
+  }
+  if(k==='liq'){
+    var acu=0,rows='';
+    M.forEach(function(r){var sd=r[1]-r[4];acu+=sd;rows+='<tr><td data-l="Mês">'+MESL[r[0]]+(r[0]===11?' (parcial)':'')+'</td><td class="r" data-l="Receita">'+money(r[1])+'</td><td class="r" data-l="Despesa paga">'+money(r[4])+'</td><td class="r" data-l="Saldo do mês">'+money(sd)+'</td><td class="r" data-l="Saldo acumulado">'+money(acu)+'</td></tr>'});
+    var cob=rx.recArrec/rx.despLiq*100;
+    return ph('Liquidez: a receita cobre a despesa?','Cobertura da despesa liquidada pela receita arrecadada e saldo mês a mês. Indicador da plataforma, não substitui a disponibilidade de caixa do RGF.',
+     [[PC(cob,1),'receita / despesa liquidada'],[money(rx.recArrec-rx.despLiq),'saldo de execução (TCE)'],[PC(tp/tl_*100,1),'do liquidado já pago (portal)'],[money(tl_-tp),'liquidado menos pago']],
+     ['A receita arrecadada cobre a despesa liquidada em '+PC(cob,1)+'. O saldo mensal depende de repasses: veja os meses em que a despesa paga superou a receita.','Em outubro a folha liquidada foi cerca do dobro dos meses anteriores e novembro ainda não tem folha liquidada. Se outubro antecipou novembro, o saldo de outubro está subestimado e o de novembro superestimado.','O pago inclui pagamentos de restos a pagar de anos anteriores, por isso não é comparável um a um com o liquidado do ano.'],
+     '<section style="grid-column:1/-1"><h4>Saldo mensal: receita menos despesa paga</h4><div class="vtw"><table class="vt" id="liqTab"><thead><tr><th>Mês</th><th class="r">Receita</th><th class="r">Despesa paga</th><th class="r">Saldo do mês</th><th class="r">Saldo acumulado</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'+qb('Pergunte ao Executivo','Qual a disponibilidade de caixa por fonte de recurso e o valor de restos a pagar inscritos? Há atraso com fornecedores ou com a folha? Meta proposta, não resultado: manter cobertura de receita sobre despesa liquidada acima de 105% até dezembro.'),
+     'Fonte: Painel de Controle do TCE-ES (receita e despesa liquidada até outubro) e portal de Ibatiba (mensal, novembro parcial).');
+  }
+  return '';
+}
+function renderCards(){
+  var t=D.tce, rx=t.rxd, h=[];
+  function k(c){return '<button type="button" class="vk '+c.cls+'" data-k="'+c.k+'" aria-expanded="false" aria-controls="kpanel"><span class="kt">'+esc(c.t)+'</span><span class="big">'+c.big+'</span><span class="st">'+esc(c.st)+'</span>'+c.g+'<span class="kp">'+c.p+'</span><span class="mais">Ver análise e dez maiores</span></button>'}
+  var pr=rx.recArrec/rx.recPrev*100;
+  h.push(k({k:'rec',t:'Receita',cls:'ok',big:money(rx.recArrec),st:PC(pr,1)+' da previsão',g:gauge(pr,110,[{at:100,l:'previsão 100%'}]),p:'Arrecadação acumulada até outubro (TCE-ES) frente à previsão atualizada de '+money(rx.recPrev)+'.'}));
+  var pd=rx.despLiq/rx.despPrev*100;
+  h.push(k({k:'desp',t:'Despesa',cls:'ok',big:money(rx.despLiq),st:PC(pd,1)+' da dotação',g:gauge(pd,110,[{at:100,l:'dotação 100%'}]),p:'Despesa liquidada acumulada até outubro frente à dotação atualizada de '+money(rx.despPrev)+'.'}));
+  var pe=t.pessoalExec;
+  h.push(k({k:'pes',t:'Pessoal',cls:pe.pct>=pe.lim?'bad':(pe.pct>=pe.alerta?'warn':'ok'),big:PC(pe.pct),st:pe.pct>=pe.lim?'Acima do limite':(pe.pct>=pe.alerta?'Faixa de alerta':'Dentro do limite'),g:gauge(pe.pct,65,[{at:pe.alerta,l:'alerta 48,6%'},{at:pe.lim,l:'limite 54%'}]),p:'Pessoal do Executivo sobre a receita corrente líquida (LRF, art. 20). Consolidado: '+PC(t.pessoalCons.pct)+' (limite 60%).'}));
+  var sd=t.saude.pct-t.saude.min;
+  h.push(k({k:'sau',t:'Saúde',cls:sd>=0?'ok':'bad',big:PC(t.saude.pct),st:sd>=0?'Acima do mínimo':'Abaixo do mínimo',g:gauge(t.saude.pct,45,[{at:15,l:'mín. 15%'}]),p:'Mínimo de 15% da receita de impostos (LC 141/2012, art. 7º). Folga de '+nf(sd,2)+' p.p.'}));
+  var ed=t.edu.pct-t.edu.min;
+  h.push(k({k:'edu',t:'Educação',cls:ed<0?'bad':(ed<2?'warn':'ok'),big:PC(t.edu.pct),st:ed<0?'Abaixo do mínimo':(ed<2?'Margem estreita':'Acima do mínimo'),g:gauge(t.edu.pct,45,[{at:25,l:'mín. 25%'}]),p:'Mínimo de 25% (CF, art. 212). Fundeb na remuneração do magistério: '+PC(t.edu.fundebMag)+', referência de 70%.'}));
+  var cb=rx.recArrec/rx.despLiq*100;
+  h.push(k({k:'liq',t:'Liquidez',cls:cb>=100?'ok':'bad',big:PC(cb,1),st:cb>=100?'Receita cobre a despesa':'Despesa maior que a receita',g:gauge(cb,130,[{at:100,l:'equilíbrio 100%'}]),p:'Receita arrecadada sobre despesa liquidada até outubro. Saldo de execução de '+money(rx.recArrec-rx.despLiq)+'.'}));
+  $('#kpis').innerHTML=h.join('');
+  document.querySelectorAll('#kpis .vk').forEach(function(b){b.onclick=function(){
+    var key=b.getAttribute('data-k'), pn=$('#kpanel');
+    if(KSEL===key){KSEL='';pn.hidden=true;b.setAttribute('aria-expanded','false');return}
+    KSEL=key;document.querySelectorAll('#kpis .vk').forEach(function(x){x.setAttribute('aria-expanded',x===b?'true':'false')});
+    pn.innerHTML=kdet(key)+'<p class="btns2" style="margin-top:12px"><button type="button" class="hf" id="kfecha">Fechar análise</button></p>';pn.hidden=false;
+    $('#kfecha').onclick=function(){KSEL='';pn.hidden=true;b.setAttribute('aria-expanded','false');b.focus()};
+    pn.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }});
+}
+
+/* --- Pessoal --- */
+function renderPessoal(){
+  var mode=$('#selPes').value, M=P.pessoal.mes, idx=mode==='f'?1:0, mx=0, m, h='';
+  for(m=1;m<=10;m++){var s=0;VK.forEach(function(k){s+=M[m][k][idx]});if(s>mx)mx=s}
+  for(m=1;m<=10;m++){
+    var n=0,f=0;VK.forEach(function(k){n+=M[m][k][0];f+=M[m][k][1]});
+    var seg=VK.map(function(k){var v=M[m][k][idx];return v?'<i style="width:'+(v/mx*100)+'%;background:'+COR[k]+'" title="'+esc(VL[k])+': '+(mode==='f'?BRL(v):v+' vínculos')+'"></i>':''}).join('');
+    h+='<div class="sb"><span>'+MESL[m]+'</span><span class="t" aria-hidden="true">'+seg+'</span><span class="n">'+(mode==='f'?'<b>'+money(f)+'</b> · '+n+' vínculos':'<b>'+n+' vínculos</b> · '+money(f))+'</span></div>';
+  }
+  $('#chPes').innerHTML=h;
+  $('#legPes').innerHTML=VK.map(function(k){return '<span><i style="background:'+COR[k]+'"></i>'+esc(VL[k])+'</span>'}).join('');
+  /* tabela de outubro */
+  var o=M[10],tn=0,tf=0;VK.forEach(function(k){tn+=o[k][0];tf+=o[k][1]});
+  var rows=VK.map(function(k){return '<tr><td data-l="Vínculo"><i class="dot" style="background:'+COR[k]+'"></i>'+esc(VL[k])+'</td><td class="r" data-l="Vínculos">'+o[k][0]+'</td><td class="r" data-l="% dos vínculos">'+PC(o[k][0]/tn*100,1)+'</td><td class="r" data-l="Folha bruta">'+BRL(o[k][1])+'</td><td class="r" data-l="% da folha">'+PC(o[k][1]/tf*100,1)+'</td><td class="r" data-l="Média por vínculo">'+BRL(o[k][1]/o[k][0])+'</td></tr>'}).join('');
+  rows+='<tr><td><b>Total</b></td><td class="r"><b>'+tn+'</b></td><td class="r">100%</td><td class="r"><b>'+BRL(tf)+'</b></td><td class="r">100%</td><td class="r">'+BRL(tf/tn)+'</td></tr>';
+  $('#pesTab thead').innerHTML='<tr><th>Vínculo (outubro)</th><th class="r">Vínculos</th><th class="r">% dos vínculos</th><th class="r">Folha bruta</th><th class="r">% da folha</th><th class="r">Média por vínculo</th></tr>';
+  $('#pesTab tbody').innerHTML=rows;
+  var med=0;for(m=3;m<=9;m++){VK.forEach(function(k){med+=M[m][k][1]})}med=med/7;
+  var vs=$('#selVin').value||'T', CG=P.pessoal.cargos[vs], vn=vs==='T'?'todos os vínculos':VL[vs].toLowerCase(), VS={E:'estatutário',C:'contratado',M:'comissionado',P:'eleito/político',G:'estagiário',O:'cedido/inativo'};
+  function cg(rows,q){return rows.map(function(r){var n=r[0]+(vs==='T'&&r[3]?' ['+VS[r[3]]+']':'');return q?[n,r[1],null]:[n,r[2],r[1]]})}
+  var secs=P.pessoal.secAll.map(function(r){var x=vs==='T'?[r[1],r[2]]:(r[3][vs]||[0,0]);return [r[0],x[1],x[0]]}).filter(function(r){return r[2]>0}).sort(function(a,b){return b[1]-a[1]});
+  var tv=vs==='T'?tf:o[vs][1];
+  $('#pesGrid').innerHTML=tl('Dez maiores cargos por folha: '+vn+' (outubro)',cg(CG.F,false),tv,money,'vínculos')+tl('Dez maiores cargos por quantidade: '+vn+' (outubro)',cg(CG.Q,true),null,function(v){return v+' vínculos'})+tl2('Todas as secretarias: folha de '+vn+' (outubro)',secs,tv,money,'vínculos')+(CG.nc?'<p class="vnote" style="grid-column:1/-1">'+(vs==='T'?'Cargos de vínculos diferentes aparecem separados, com o vínculo entre colchetes.':'Há '+CG.nc+' cargos distintos neste vínculo; a lista mostra os dez maiores.')+'</p>':'');
+  var ct=o.C[0], es=o.E[0];
+  $('#pesAt').innerHTML='<b>Pontos de atenção</b><ul><li>Em outubro há <b>'+ct+' contratados</b> contra <b>'+es+' estatutários e estáveis</b>: os contratados são '+PC(ct/tn*100,1)+' dos vínculos e '+PC(o.C[1]/tf*100,1)+' da folha bruta do mês. A educação concentra a maior parte dos vínculos.</li><li>A folha bruta de outubro ('+money(tf)+') é '+nf(tf/med,1)+' vez a média de março a setembro ('+money(med)+'). Confirme com o Executivo se outubro reúne pagamentos extraordinários ou antecipou a competência de novembro.</li><li>Janeiro tem '+(function(){var a=0;VK.forEach(function(k){a+=M[1][k][0]});return a})()+' registros contra '+(function(){var a=0;VK.forEach(function(k){a+=M[2][k][0]});return a})()+' em fevereiro, com '+M[1].C[0]+' contratados em janeiro e '+M[2].C[0]+' em fevereiro: confirme se todos os contratos temporários estão lançados no portal desde janeiro.</li></ul>';
+}
+
+/* --- Elementos de despesa mês a mês --- */
+var ELALL=false;
+function sc(s){s=ac(String(s).toLowerCase().replace(/serv\.médico-hospital\.,odontol\.e laboratoriais/,'serviços médico-hospitalares, odontológicos e laboratoriais'));return s.charAt(0).toUpperCase()+s.slice(1)}
+function kv(v){if(!v)return '<span class="z">-</span>';return nf(v/1e3,0)}
+function renderElem(){
+  var E=P.elem, rows=E.rows, tot=sum(E.totMes.map(function(x){return [x]}),0), lim=ELALL?rows.length:10, h='', mxall=0;
+  function line(r,cls){
+    var mx=Math.max.apply(null,r[2].map(Math.abs))||1;
+    return '<tr'+(cls?' class="'+cls+'"':'')+'><th scope="row">'+esc(sc(r[0]))+'</th>'+r[2].map(function(v){var a=v>0?Math.min(.45,v/mx*.45):0;return '<td style="background:rgba(19,81,180,'+a.toFixed(2)+')">'+kv(v)+'</td>'}).join('')+'<td class="tt">'+kv(r[1])+'</td><td class="tt">'+PC(r[1]/tot*100,1)+'</td></tr>';
+  }
+  rows.slice(0,lim).forEach(function(r){h+=line(r)});
+  if(!ELALL){var rest=rows.slice(10), rv=[];for(var i=0;i<11;i++)rv.push(sum(rest.map(function(r){return [r[2][i]]}),0));h+=line(['Demais '+rest.length+' elementos',sum(rest,1),rv],'dm')}
+  h+='<tr class="tot"><th scope="row">Total liquidado</th>'+E.totMes.map(function(v){return '<td>'+kv(v)+'</td>'}).join('')+'<td class="tt">'+kv(tot)+'</td><td class="tt">100%</td></tr>';
+  var hd='<tr><th scope="col">Elemento de despesa (R$ mil)</th>'+['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov'].map(function(m){return '<th scope="col">'+m+(m==='Nov'?'*':'')+'</th>'}).join('')+'<th scope="col">Total</th><th scope="col">%</th></tr>';
+  $('#elTab').innerHTML='<thead>'+hd+'</thead><tbody>'+h+'</tbody>';
+  $('#elTab').setAttribute('aria-label','Valores liquidados em R$ mil');$('#elBtn').textContent=ELALL?'Mostrar só os dez maiores':'Mostrar todos os '+rows.length+' elementos';
+  /* grupos */
+  var G=E.grupos, gn={pes:'Pessoal e encargos sociais',cor:'Custeio (outras despesas correntes)',inv:'Investimentos',amo:'Amortização da dívida'}, gh='';
+  ['pes','cor','inv','amo'].forEach(function(k){var t=sum(G[k].map(function(x){return [x]}),0);gh+='<tr><th scope="row">'+gn[k]+'</th>'+G[k].map(function(v){return '<td>'+kv(v)+'</td>'}).join('')+'<td class="tt">'+kv(t)+'</td><td class="tt">'+PC(t/tot*100,1)+'</td></tr>'});
+  $('#grTab').innerHTML='<thead>'+hd.replace('Elemento de despesa','Grupo de despesa')+'</thead><tbody>'+gh+'</tbody>';
+  var vs=rows[0][2], md=0;for(var j=2;j<=8;j++)md+=vs[j];md=md/7;
+  $('#elAt').innerHTML='<b>Pontos de atenção</b><ul><li>Em outubro, <b>'+esc(sc(rows[0][0]).toLowerCase())+'</b> somou '+money(vs[9]*1000/1000)+', cerca de '+nf(vs[9]/md,1)+' vez a média de março a setembro ('+money(md)+'), e novembro ainda não registra folha. Confirme se outubro antecipou a competência de novembro.</li><li>O segundo maior elemento, <b>outros serviços de terceiros, pessoa jurídica</b>, soma '+money(rows[1][1])+' ('+PC(rows[1][1]/tot*100,1)+' do liquidado) e é onde se concentram os contratos de terceirização. Vale pedir a relação por contrato.</li><li>Os dez maiores elementos reúnem '+PC(sum(rows.slice(0,10),1)/tot*100,1)+' do total liquidado.</li></ul>';
+}
+
+/* --- Painel estratégico --- */
+function ptiles(){
+  var tot=sum(D.mensal,3), t=D.tce, I=0;
+  var ind=[t.saude.pct<15,t.edu.pct<25,t.pessoalExec.pct>=t.pessoalExec.alerta,t.despReceita.apurado>=t.despReceita.alerta].filter(Boolean).length;
+  return [
+   {k:'sub',t:'Subvenções sociais',b:money(P.sub.tot),s:P.sub.n+' pagamentos a '+P.sub.top.length+' entidades'},
+   {k:'ges',t:'Contratos de gestão',b:money(P.cus.fav[0][1]),s:'maior favorecido, entidade de gestão'},
+   {k:'ata',t:'Adesão de ata',b:'4 em 2026',s:'R$ 1,03 mi em adesões declaradas'},
+   {k:'cus',t:'Custeio',b:money(P.cus.tot),s:PC(P.cus.tot/tot*100,1)+' do liquidado'},
+   {k:'inv',t:'Investimento',b:money(P.inv.tot),s:PC(P.inv.tot/tot*100,1)+' do liquidado'},
+   {k:'cnv',t:'Convênios',b:'sem registro',s:'portal não lista convênios em 2026'},
+   {k:'eme',t:'Emendas',b:'sem registro',s:'portal não lista emendas em 2026'},
+   {k:'ctn',t:'Serviços contínuos',b:money(P.cont.reduce(function(a,r){return a+r[3]},0)),s:'dez maiores contratos'},
+   {k:'obr',t:'Obras',b:money(P.obras.tot),s:'liquidado em obras e instalações'},
+   {k:'ind',t:'Indicadores',b:ind+' de 4 em alerta',s:'saúde, educação, pessoal e despesa'}];
+}
+function monthList(t,mes,total){
+  var rows=[];for(var m=1;m<=11;m++)if(mes[m])rows.push([MESL[m]+(m===11?' (parcial)':''),mes[m]]);
+  return rows.length?tl(t,rows.sort(function(a,b){return b[1]-a[1]}),total):'';
+}
+function pdet(k){
+  var tot=sum(D.mensal,3), links=function(a){return a.map(function(x){return '<a href="'+x[0]+'" target="_blank" rel="noopener">'+esc(x[1])+'</a>'}).join(' · ')};
+  if(k==='sub')return ph('Subvenções sociais','Pagamentos a entidades privadas sem fins lucrativos (elemento outras subvenções).',[[money(P.sub.tot),'pago em 2026'],[PC(P.sub.tot/tot*100,2),'do liquidado'],[P.sub.n+'','pagamentos'],[P.sub.top.length+'','entidades']],
+    [esc(P.sub.top[0][0])+' recebeu '+PC(P.sub.top[0][1]/P.sub.tot*100,1)+' do total. Cada entidade deve ter plano de trabalho, prestação de contas e, se for parceria, termo de fomento ou colaboração (Lei 13.019/2014).'],
+    tl('Entidades beneficiadas',P.sub.top,P.sub.tot,money,'pagamentos')+monthList('Valor pago por mês',P.sub.mes,P.sub.tot)+qb('Pergunte ao Executivo','Qual o instrumento de cada entidade, o plano de trabalho e a última prestação de contas aprovada? Os valores de março (R$ 440 mil) e outubro (R$ 225 mil) têm explicação em parcelas extras? Meta proposta, não resultado: 100% das entidades com prestação de contas publicada.'),
+    'Fonte: portal de Ibatiba, despesas com subvenções 2026. Base: Lei 4.320/1964, arts. 16 e 17.');
+  if(k==='ges')return ph('Contratos de gestão e entes gestores','O portal não rotula contratos de gestão. Esta tela mostra os maiores pagamentos a entidades de gestão e consórcios.',[[money(P.cus.fav[0][1]),'pago à entidade de gestão'],[PC(P.cus.fav[0][1]/tot*100,1)+'','do total liquidado'],[money(P.gestao.cim[0]),'pago ao CIM Pedra Azul'],[money(P.gestao.progr[0]),'contrato de programa (consórcio)']],
+    ['A entidade de gestão em saúde e educação é o maior favorecido da despesa ('+money(P.cus.fav[0][1])+' em '+P.gestao.ing[1]+' liquidações). Ela não aparece entre os contratos de 2026 carregados neste painel, então o amparo pode vir de instrumento anterior: peça o instrumento ao Executivo.','Contrato de programa com consórcio público de saúde: '+money(P.gestao.progr[0])+' por dispensa (contrato '+P.gestao.progr[1]+'), mais rateio de '+money(P.gestao.rateio[0])+'.'],
+    tl('Maiores pagamentos a entes e entidades de gestão',[[P.cus.fav[0][0],P.cus.fav[0][1],P.cus.fav[0][2]],[P.cus.fav[3][0],P.cus.fav[3][1],P.cus.fav[3][2]]],tot,money,'liquidações')+qb('Pergunte ao Executivo','Qual instrumento ampara os pagamentos à entidade de gestão (contrato de gestão, termo de colaboração ou contrato)? Houve chamamento ou seleção pública? Onde estão publicados o contrato, o plano de trabalho e os relatórios de execução? Meta proposta, não resultado: publicar contrato e relatórios trimestrais de 100% dos entes gestores.'),
+    'Fonte: portal de Ibatiba (liquidações e contratos 2026). A classificação como entidade de gestão vem do nome do favorecido; confirme o enquadramento jurídico no processo.');
+  if(k==='ata'){
+    var ad=(typeof AT!=='undefined'&&AT)?AT.adesoes:[], tt=sum(ad.map(function(a){return [a[4]]}),0);
+    return ph('Adesão de ata (caronas)','Contratos que o município declarou como adesão a ata de registro de preços de outro órgão.',[[ad.length+'','adesões declaradas'],[ad.length?BRL(tt):'-','valor total'],[AT?AT.T.atas+'':'-','atas assinadas no ano']],
+     ['Cada adesão exige justificativa da vantagem, preço compatível com o mercado e aceite do gerenciador e do fornecedor (Lei 14.133/2021, art. 86, §2º).'],
+     (ad.length?tl('Adesões declaradas, por valor',ad.map(function(a){return [a[3]+' ('+a[5]+')',a[4]]}),tt):'<section style="grid-column:1/-1"><p class="vnote">Dados de atas carregando.</p></section>')+qb('Aprofundar','A seção Atas e adesões, mais abaixo, traz concentração por fornecedor, atas por processo e os pontos de fiscalização. <a href="#atas">Ir para Atas e adesões</a>.'),
+     'Fonte: lista Íntegra das Atas de Adesão do portal de Ibatiba.');
+  }
+  if(k==='cus')return ph('Custeio','Outras despesas correntes liquidadas em 2026: serviços, material, benefícios e contribuições.',[[money(P.cus.tot),'liquidado'],[PC(P.cus.tot/tot*100,1),'do liquidado total'],[money(P.cus.tot/11),'média mensal (11 meses)']],
+    [esc(ac(P.cus.elem[0][0]))+' é o maior elemento: '+money(P.cus.elem[0][1])+' ('+PC(P.cus.elem[0][1]/P.cus.tot*100,1)+' do custeio).',esc(ac(P.cus.elem[1][0]))+' soma '+money(P.cus.elem[1][1])+', o segundo maior.'],
+    tl('Dez maiores elementos',P.cus.elem,P.cus.tot,money,'liquidações')+tl('Dez maiores favorecidos',P.cus.fav,P.cus.tot,money,'liquidações')+monthList('Custeio por mês',P.inv?mapIdx(P.elem.grupos.cor):{},P.cus.tot)+qb('Pergunte ao Executivo','Quais contratos de terceirização compõem o elemento de serviços de terceiros e qual o prazo de cada um? Meta proposta, não resultado: reduzir em 5% o custeio com repactuação e revisão de contratos em 12 meses.'),
+    'Fonte: portal de Ibatiba, liquidações 2026 por grupo e elemento de despesa. Inclui pagamentos a pessoas jurídicas, entes públicos e benefícios.');
+  if(k==='inv')return ph('Investimento','Despesas de capital liquidadas em 2026: obras, veículos, máquinas e equipamentos.',[[money(P.inv.tot),'liquidado'],[PC(P.inv.tot/tot*100,1),'do liquidado total'],[money(P.inv.elem[0][1]),'obras em andamento']],
+    [esc(P.inv.elem[0][0])+' são '+PC(P.inv.elem[0][1]/P.inv.tot*100,1)+' do investimento. '+esc(P.inv.elem[1][0])+' somam '+money(P.inv.elem[1][1])+'.','O investimento representa '+PC(P.inv.tot/tot*100,1)+' da despesa: baixa margem para capital em relação ao custeio.'],
+    tl('Dez maiores elementos',P.inv.elem,P.inv.tot,money,'liquidações')+tl('Dez maiores favorecidos',P.inv.fav,P.inv.tot,money,'liquidações')+monthList('Investimento por mês',mapIdx(P.elem.grupos.inv),P.inv.tot)+qb('Pergunte ao Executivo','Quais obras e aquisições têm fonte de recurso própria e quais dependem de convênio ou emenda? Meta proposta, não resultado: elevar o investimento a 10% da despesa liquidada com recursos de capital captados.'),
+    'Fonte: portal de Ibatiba, liquidações 2026 do grupo de despesa 4.');
+  if(k==='cnv'||k==='eme'){
+    var e=k==='eme';
+    return ph(e?'Emendas parlamentares':'Convênios','A consulta pública do portal não exibe lançamentos de '+(e?'emendas':'convênios')+' de 2026. Abaixo, as transferências de capital e as maiores transferências recebidas.',[[money(P.transf.cap),'receitas de capital (transferências)'],['0','registros no portal em 2026']],
+     ['O portal não lista '+(e?'emendas Pix nem emendas individuais':'convênios recebidos')+' em 2026, mas há '+money(P.transf.cap)+' de transferências de capital arrecadadas. Pode haver recursos sem o lançamento específico na consulta.',(e?'Emendas devem ser registradas e acompanhadas no portal federal de transparência.':'Convênios exigem plano de trabalho, contrapartida e prestação de contas no sistema do concedente.')],
+     tl('Dez maiores transferências recebidas',P.transf.top,sum(D.origem,1))+qb('Pergunte ao Executivo',e?'Quais emendas (individuais, de bancada e Pix) foram indicadas para Ibatiba em 2026, qual o valor, o objeto e o estágio de execução? Meta proposta, não resultado: 100% das emendas recebidas publicadas no portal com objeto e saldo.':'Quais convênios estão vigentes, com que concedente, valor, contrapartida e prazo? Meta proposta, não resultado: 100% dos convênios publicados no portal com plano de trabalho e execução.')+'<section style="grid-column:1/-1"><h4>Consultar</h4><p style="margin:0;font-size:14px">'+links([['https://ibatiba-es.portaltp.com.br/consultas/repasses/'+(e?'emendasParlamentares':'conveniosrecebidos')+'.aspx','Consulta no portal de Ibatiba'],['https://portaldatransparencia.gov.br/emendas/visao-geral','Emendas no Portal da Transparência federal']])+'</p></section>',
+     'Fonte: portal de Ibatiba (receitas de 2026 e consultas de repasses). Ausência de registro na consulta não prova ausência de recurso.');
+  }
+  if(k==='ctn'){
+    var tc=P.cont.reduce(function(a,r){return a+r[3]},0);
+    return ph('Serviços contínuos','Dez maiores contratos de serviços de execução continuada em vigor em 2026.',[[money(tc),'soma dos dez maiores'],[PC(tc/D.T.ctrVal*100,1),'do valor contratado em 2026']],
+     ['Transporte escolar soma '+money(P.cont[0][3]+P.cont[1][3])+' em dois contratos, '+PC((P.cont[0][3]+P.cont[1][3])/tc*100,1)+' dos dez maiores.','Contratos de serviços contínuos podem durar até 5 anos, com prorrogação até 10 (Lei 14.133/2021, arts. 106 e 107): acompanhe prazo, reajuste e pesquisa de preços na prorrogação.'],
+     '<section style="grid-column:1/-1"><h4>Dez maiores contratos</h4><div class="vtw"><table class="vt"><thead><tr><th>Objeto</th><th>Contratada</th><th>Contrato</th><th class="r">Valor</th></tr></thead><tbody>'+P.cont.map(function(r){return '<tr><td data-l="Objeto">'+esc(r[0])+'</td><td data-l="Contratada">'+esc(r[1])+'</td><td data-l="Contrato">'+esc(r[2])+'</td><td class="r" data-l="Valor">'+BRL(r[3])+'</td></tr>'}).join('')+'</tbody></table></div></section>'+qb('Pergunte ao Executivo','Qual a data de término, o índice de reajuste e a última pesquisa de preços de cada contrato? Há fiscal designado? Meta proposta, não resultado: 100% dos contratos contínuos com fiscal e relatório de fiscalização publicados.'),
+     'Fonte: contratos de 2026 do portal de Ibatiba, selecionados pelo objeto.');
+  }
+  if(k==='obr')return ph('Obras','Despesas liquidadas no elemento obras e instalações em 2026.',[[money(P.obras.tot),'liquidado em obras'],[PC(P.obras.tot/tot*100,1),'do liquidado total'],[P.obras.top.length+'','favorecidos']],
+    [esc(P.obras.top[0][0])+' concentra '+PC(P.obras.top[0][1]/P.obras.tot*100,1)+' do valor liquidado em obras ('+money(P.obras.top[0][1])+').',esc(P.obras.top[2][0])+' aparece entre os favorecidos de obras, com '+money(P.obras.top[2][1])+'; confirme o objeto contratado, pois o nome sugere outro ramo de serviço.',esc(P.obras.top[4][0])+' aparece com '+money(P.obras.top[4][1])+' (extensão de rede elétrica), que não é obra licitada pelo município.'],
+    tl('Favorecidos em obras',P.obras.top,P.obras.tot,money,'liquidações')+monthList('Obras por mês',P.obras.mes,P.obras.tot)+qb('Pergunte ao Executivo','Qual a medição, o saldo contratual e o prazo de cada obra? Há obra paralisada? Meta proposta, não resultado: publicar a medição mensal de 100% das obras em andamento. '+links([['https://ibatiba-es.portaltp.com.br/consultas/despesas/obras.aspx','Obras no portal'],['https://ibatiba-es.portaltp.com.br/consultas/compras/contratosObras.aspx','Contratos de obras']])),
+    'Fonte: portal de Ibatiba, liquidações 2026 do elemento 4.4.90.51.');
+  if(k==='ind'){
+    var t=D.tce, rowsI=[['Saúde',PC(t.saude.pct),'mínimo 15%',t.saude.pct<15?'Abaixo':'Dentro',2],['Educação',PC(t.edu.pct),'mínimo 25%',t.edu.pct<25?'Abaixo':'Dentro',3],['Pessoal do Executivo',PC(t.pessoalExec.pct),'limite 54%, alerta 48,6%',t.pessoalExec.pct>=t.pessoalExec.alerta?'Alerta':'Dentro',4],['Despesa / receita corrente',PC(t.despReceita.apurado,0),'alerta 85%, limite 95%',t.despReceita.apurado>=95?'Acima':(t.despReceita.apurado>=85?'Alerta':'Dentro'),5]];
+    function top(ci,nm){var r=MAP.rows.slice().sort(function(a,b){return b[ci]-a[ci]}).slice(0,10).map(function(x){return [(x[0]===IB?'Ibatiba (este município)':x[1]),x[ci]]});return tl(nm,r,null,function(v){return PC(v,2)})}
+    return ph('Indicadores','Quatro indicadores do TCE-ES e posição de Ibatiba entre os 78 municípios.',[[rowsI.filter(function(r){return r[3]!=='Dentro'}).length+' de 4','fora da faixa confortável']],
+     ['Despesa corrente sobre receita corrente de '+PC(t.despReceita.apurado,0)+' está na faixa de alerta (a partir de 85%); em 95% valem as vedações do art. 167-A da Constituição.'],
+     '<section style="grid-column:1/-1"><h4>Situação de Ibatiba</h4><div class="vtw"><table class="vt"><thead><tr><th>Indicador</th><th class="r">Ibatiba</th><th>Referência legal</th><th>Situação</th><th class="r">Posição (maior %)</th></tr></thead><tbody>'+rowsI.map(function(r){return '<tr><td data-l="Indicador">'+r[0]+'</td><td class="r" data-l="Ibatiba"><b>'+r[1]+'</b></td><td data-l="Referência">'+r[2]+'</td><td data-l="Situação"><span class="sit '+(r[3]==='Dentro'?'ok':(r[3]==='Abaixo'||r[3]==='Acima'?'bd':'wn'))+'">'+r[3]+'</span></td><td class="r" data-l="Posição">'+rkp(r[4])+'º de 78</td></tr>'}).join('')+'</tbody></table></div></section>'+top(5,'Dez municípios com maior despesa sobre receita corrente')+top(4,'Dez municípios com maior gasto de pessoal (% da RCL)')+top(2,'Dez municípios com maior aplicação em saúde')+top(3,'Dez municípios com maior aplicação em educação'),
+     'Fonte: Painel de Controle do TCE-ES, acumulado até outubro/2026. O mapa acima traz os 78 municípios.');
+  }
+  return '';
+}
+function mapIdx(a){var o={};a.forEach(function(v,i){o[i+1]=v});return o}
+function renderPainel(){
+  var T=ptiles();
+  $('#pnl').innerHTML=T.map(function(x){return '<button type="button" class="pt" data-k="'+x.k+'" aria-expanded="false" aria-controls="pnDet"><span class="pn">'+esc(x.t)+'</span><b>'+x.b+'</b><small>'+esc(x.s)+'</small></button>'}).join('');
+  document.querySelectorAll('#pnl .pt').forEach(function(b){b.onclick=function(){
+    var k=b.getAttribute('data-k'), d=$('#pnDet');
+    if(PSEL===k){PSEL='';d.hidden=true;b.setAttribute('aria-expanded','false');return}
+    PSEL=k;document.querySelectorAll('#pnl .pt').forEach(function(x){x.setAttribute('aria-expanded',x===b?'true':'false')});
+    d.innerHTML=pdet(k);d.hidden=false;d.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }});
+}
+
+/* --- Valor licitado por modalidade --- */
+function modRows(){
+  var r=[];D.lic.forEach(function(x){r.push([x[0],x[2],x[3],x[4],+x[8]||0,x[1],x[7]])});
+  D.disp.forEach(function(x){r.push([x[0],'Dispensa',x[2],x[3],+x[7]||0,x[1],'C'])});
+  return r;
+}
+function renderMod(){
+  var sel=$('#selMod'), all=modRows();
+  if(!sel.options.length){
+    var tot={};all.forEach(function(r){tot[r[1]]=(tot[r[1]]||0)+r[4]});
+    var h='<option value="">Todas (licitações e dispensas)</option>';
+    Object.keys(tot).sort(function(a,b){return tot[b]-tot[a]}).forEach(function(k){h+='<option value="'+esc(k)+'">'+esc(ac(k))+'</option>'});
+    sel.innerHTML=h;
+    var hm='<option value="">Todos os meses</option>';for(var q=1;q<=12;q++)hm+='<option value="'+q+'">'+MESL[q]+'</option>';$('#selModMes').innerHTML=hm;
+  }
+  var m=sel.value, mm=+$('#selModMes').value||0, rows=all.filter(function(r){return (!m||r[1]===m)&&(!mm||r[0]===mm)}), T=sum(rows,4), mes={}, cnt={};
+  rows.forEach(function(r){mes[r[0]]=(mes[r[0]]||0)+r[4];cnt[r[0]]=(cnt[r[0]]||0)+1});
+  var gt=sum(all,4), semv=rows.filter(function(r){return !r[4]}).length;
+  $('#modSum').innerHTML='<div><b>'+MI(T)+'</b>valor licitado (homologado)</div><div><b>'+rows.length+'</b>processos</div><div><b>'+PC(T/gt*100,1)+'</b>do total de licitações e dispensas</div><div><b>'+semv+'</b>sem valor homologado</div>';
+  var mx=Math.max.apply(null,Object.keys(mes).map(function(k){return mes[k]}))||1, h='';
+  for(var i=1;i<=12;i++)if(cnt[i])h+='<div class="hb hm"><span>'+MESL[i]+(i===12?' (abertura futura)':'')+'</span><span class="t" aria-hidden="true"><i style="width:'+(mes[i]/mx*100)+'%"></i></span><span class="n">'+money(mes[i])+' · '+cnt[i]+' processos</span></div>';
+  $('#chMod').innerHTML=h;
+  var top=rows.slice().sort(function(a,b){return b[4]-a[4]}).slice(0,10);
+  $('#modTop').innerHTML='<section style="grid-column:1/-1"><h4>Dez maiores processos'+(m?': '+esc(ac(m)):'')+(mm?' em '+MESL[mm]:'')+'</h4>'+(top.length?'<div class="vtw"><table class="vt"><thead><tr><th>#</th><th>Modalidade</th><th>Processo</th><th>Unidade</th><th>Mês de abertura</th><th>Objeto</th><th class="r">Valor</th></tr></thead><tbody>'+top.map(function(r,i){return '<tr><td data-l="Posição">'+(i+1)+'</td><td data-l="Modalidade">'+esc(ac(r[1]))+'</td><td data-l="Processo">'+esc(r[2])+'</td><td data-l="Unidade">'+esc(r[5])+'</td><td data-l="Mês">'+MESL[r[0]]+'</td><td data-l="Objeto">'+esc(ac(String(r[3]).replace(/\.\.\.|…/g,'')).slice(0,160))+'</td><td class="r" data-l="Valor">'+BRL(r[4])+'</td></tr>'}).join('')+'</tbody></table></div>':'<p class="vnote">Nenhum processo com esse filtro.</p>')+'</section>';
+}
+
+/* ---------- Início ---------- */
+Promise.all([get('dados/ibatiba.json?v='+V),get('dados/mapa.json?v='+V),get('dados/funcao.json?v='+V).catch(function(){return null})]).then(function(r){
+  D=r[0];MAP=r[1];FD=r[2];
+  renderUpd();renderCards();renderMod();$('#selMod').onchange=renderMod;$('#selModMes').onchange=renderMod;renderMensal();renderBlocos();renderGuia();
+  $('#selSerie').onchange=renderMensal;
+  fillMes();renderProc();
+  document.querySelectorAll('.vtabs button').forEach(function(b){b.onclick=function(){setTab(b.getAttribute('data-tab'))}});
+  ['fMes','fUg'].forEach(function(i){$('#'+i).onchange=function(){SHOWN=LIMIT;renderProc()}});
+  $('#fTxt').oninput=function(){SHOWN=LIMIT;renderProc()};
+  $('#selInd').onchange=renderMap;$('#rkBusca').oninput=drawRank;
+  renderMap();
+  fetch('https://servicodados.ibge.gov.br/api/v3/malhas/estados/32?formato=application/vnd.geo+json&intrarregiao=municipio&qualidade=minima').then(function(x){return x.json()}).then(function(g){geo=g;renderMap()}).catch(function(){renderMap()});
+}).catch(function(e){$('#upd').textContent='Não foi possível carregar os dados agora. Tente novamente em instantes. Consulte as fontes oficiais abaixo.';console.error(e)});
+renderEditais();
+function initP(){if(!D||!P){return setTimeout(initP,150)}renderPessoal();$('#selPes').onchange=renderPessoal;$('#selVin').onchange=renderPessoal;renderElem();$('#elBtn').onclick=function(){ELALL=!ELALL;renderElem()};renderPainel()}
+get('dados/painel.json?v='+V).then(function(x){P=x;initP()}).catch(function(e){var n=$('#pesNota');if(n)n.textContent='Não foi possível carregar os dados de pessoal e despesas agora.';console.error(e)});
+get('dados/atas.json?v='+V).then(function(a){AT=a;renderAtas();['atUg','atTipo'].forEach(function(i){$('#'+i).onchange=function(){ATSHOWN=ATLIM;drawAtas()}});$('#atTxt').oninput=function(){ATSHOWN=ATLIM;drawAtas()}}).catch(function(e){var n=$('#atNota');if(n)n.textContent='Não foi possível carregar as atas agora. Consulte o portal da transparência.';console.error(e)});
+})();
+</script>
+<script>
+(function(){
+'use strict';
+var IB=3202454;
+var $=function(s){return document.querySelector(s)};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var nf=function(v,d){return Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})};
+var MI=function(v){return Math.abs(v)>=1e6?'R$ '+nf(v/1e6,2)+' mi':'R$ '+nf(v/1e3,1)+' mil'};
+var BRL=function(v){return Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})};
+var MESL=['','Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+var MS=['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+var DT=function(s){if(!s)return '';var p=String(s).slice(0,10).split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:s};
+function get(u){return fetch(u,{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error(u+' '+r.status);return r.json()})}
+var CURADO=['resumo','mapa','pessoal','evolucao','elementos','painel','processos','atas','guia'];
+var MAP=null, IDX=null, H1=null, EY=null, LATE=[];
+function cap(s){s=String(s||'');return s.charAt(0).toUpperCase()+s.slice(1).toLowerCase()}
+function bars(rows,fmt,cls){
+  if(!rows||!rows.length)return '<p class="vnote">Sem registros nesta fonte.</p>';
+  var mx=Math.max.apply(null,rows.map(function(r){return r[1]}))||1;
+  return rows.map(function(r){return '<div class="hb"><span>'+esc(r[0])+'</span><span class="t" aria-hidden="true"><i class="'+(cls||'')+'" style="width:'+Math.max(1,r[1]/mx*100)+'%"></i></span><span class="n">'+fmt(r)+'</span></div>'}).join('');
+}
+function tab(head,rows){
+  if(!rows||!rows.length)return '<p class="vnote">Sem registros nesta fonte.</p>';
+  return '<div class="vtw"><table class="vt"><thead><tr>'+head.map(function(h){return '<th'+(h[1]?' class="r"':'')+'>'+esc(h[0])+'</th>'}).join('')+'</tr></thead><tbody>'+
+    rows.map(function(r){return '<tr>'+r.map(function(c,i){return '<td'+(head[i][1]?' class="r"':'')+' data-l="'+esc(head[i][0])+'">'+c+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table></div>';
+}
+var PG={};
+function ptab(id,head,rows,nome){
+  PG[id]={head:head,rows:rows,n:30,q:''};
+  return '<div class="vctl"><label for="q_'+id+'">Buscar</label><input id="q_'+id+'" type="search" placeholder="objeto, nº ou favorecido" data-pt="'+id+'"></div><div class="vsum" id="s_'+id+'"></div><div id="t_'+id+'"></div><p class="vmore" id="m_'+id+'"></p>';
+}
+function pdraw(id){
+  var P=PG[id],q=P.q.toLowerCase(),rows=P.rows.filter(function(r){return !q||r.join(' ').toLowerCase().indexOf(q)>=0});
+  var vi=P.head.length-1,tot=0;rows.forEach(function(r){tot+=r.vv});
+  $('#s_'+id).innerHTML='<div><b>'+rows.length+'</b>registros</div><div><b>'+MI(tot)+'</b>valor somado</div>';
+  $('#t_'+id).innerHTML=tab(P.head,rows.slice(0,P.n).map(function(r){return r.cells}));
+  $('#m_'+id).innerHTML=rows.length>P.n?'Mostrando '+P.n+' de '+rows.length+'. <button type="button" data-more="'+id+'">Mostrar mais</button>':(rows.length?'Mostrando todos os '+rows.length+' registros.':'');
+}
+function pinit(id,head,list,mk){
+  var rows=list.map(function(r){var c=mk(r);var o=c.slice();o.cells=c.map(function(x,i){return i===c.length-1?'<b>'+BRL(r[r.length-1])+'</b>':x});o.vv=r[r.length-1];return o});
+  PG[id]={head:head,rows:rows,n:30,q:''};pdraw(id);
+}
+function rk(ci,code){var me=null;MAP.rows.forEach(function(r){if(r[0]===code)me=r[ci]});var n=1;MAP.rows.forEach(function(r){if(r[ci]>me)n++});return n}
+function tile(t,big,st,cls,p){return '<div class="mtile"><h4>'+esc(t)+'</h4><div class="big">'+big+'</div><span class="st '+cls+'">'+esc(st)+'</span><p>'+p+'</p></div>'}
+function tceTiles(row,code){
+  var s=row[2],e=row[3],p=row[4],d=row[5],h='';
+  h+=tile('Saúde (receita de impostos)',nf(s,2)+'%',s<15?'Abaixo do mínimo de 15%':(s<20?'Dentro da faixa de atenção':'Acima de 20%'),s<15?'bd':(s<20?'wn':'ok'),'Mínimo de 15% (LC 141/2012). '+rk(2,code)+'º maior entre os 78 municípios.');
+  h+=tile('Educação (receita de impostos)',nf(e,2)+'%',e<25?'Abaixo do mínimo de 25%':(e<30?'Dentro da faixa de atenção':'Acima de 30%'),e<25?'bd':(e<30?'wn':'ok'),'Mínimo de 25% (CF, art. 212). '+rk(3,code)+'º maior entre os 78.');
+  h+=tile('Pessoal do Executivo (% da RCL)',nf(p,2)+'%',p>54?'Acima do limite de 54%':(p>48.6?'Em alerta (acima de 48,6%)':'Dentro do limite'),p>54?'bd':(p>48.6?'wn':'ok'),'Limite de 54% (LRF, art. 20). '+rk(4,code)+'º maior entre os 78.');
+  h+=tile('Despesa corrente / receita corrente',nf(d,2)+'%',d>=95?'Faixa de 95% ou mais':(d>=85?'Faixa de 85% a 95%':'Abaixo de 85%'),d>=95?'bd':(d>=85?'wn':'ok'),'Referências do art. 167-A da CF. '+rk(5,code)+'º maior entre os 78.');
+  return '<div class="mgrid">'+h+'</div><p class="vnote">Fonte: Painel de Controle do TCE-ES (valores acumulados, igual ao mapa do ES). </p>';
+}
+function view(code){
+  var row=null;MAP.rows.forEach(function(r){if(r[0]===code)row=r});
+  var nome=row?row[1]:String(code), meta=(IDX&&IDX.municipios&&IDX.municipios[code])||null;
+  var host=meta&&meta.host?meta.host:null;
+  var h='<h2>'+esc(nome)+': dados do município em 2026</h2>';
+  if(row)h+=tceTiles(row,code);
+  var show=function(d){
+    if(!d||!d.disp||!d.disp.portal){return '<div class="mand"><b>Portal sem integração.</b> Não há leitura automática do portal da transparência deste município. Os indicadores do TCE-ES acima e o painel de editais abaixo continuam disponíveis. Nada foi estimado.</div>'}
+    var T=d.T||{},p=d.pessoal,de=d.despesa,re=d.receita,x='';
+    var g=new Date(d.gerado);
+    x+='<p class="vupd" role="status"><b>Atualização:</b> dados do portal da transparência lidos em '+(isNaN(g)?'':g.toLocaleDateString('pt-BR')+' às '+g.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}))+'. Periodicidade: diária (20h). Os dados seguem a disponibilidade do portal oficial'+(p?': folha até '+MESL[p.mes]+'/'+d.ano:'')+(de?', despesa liquidada até '+MESL[de.ultimoMes]+'/'+d.ano:'')+'.</p>';
+    x+='<div class="vsum"><div><b>'+(T.lic||0)+'</b>licitações ('+MI(T.licVal||0)+' homologados)</div><div><b>'+(T.disp||0)+'</b>dispensas e inexigibilidades ('+MI(T.dispVal||0)+')</div><div><b>'+(T.ctr||0)+'</b>contratos ('+MI(T.ctrVal||0)+')</div><div><b>'+(T.atas||0)+'</b>atas ('+MI(T.atasVal||0)+', teto registrado)</div></div>';
+    if(de||re){
+      x+='<h3>Receita e despesa mês a mês</h3><div class="mcols">';
+      if(re)x+='<div class="vcard"><h4>Receita arrecadada: '+MI(re.total)+'</h4>'+bars(re.mensal.map(function(r){return [MS[r[0]],r[1]]}),function(r){return MI(r[1])})+'</div>';
+      if(de)x+='<div class="vcard"><h4>Despesa liquidada: '+MI(de.total)+'</h4>'+bars(de.mensal.map(function(r){return [MS[r[0]],r[1]]}),function(r){return MI(r[1])},'d')+'</div>';
+      x+='</div>';
+      if(re)x+='<h3>De onde vem a receita</h3><div class="vcard">'+bars(re.origem,function(r){return MI(r[1])+' ('+nf(r[1]/re.total*100,1)+'%)'})+'</div>';
+    }
+    if(de){
+      x+='<h3>Para onde vai (10 maiores)</h3><div class="mcols"><div class="vcard"><h4>Por função de governo</h4>'+bars(de.funcao,function(r){return MI(r[1])+' ('+nf(r[1]/de.total*100,1)+'%)'})+'</div><div class="vcard"><h4>Por elemento de despesa</h4>'+bars(de.elemento,function(r){return MI(r[1])})+'</div></div>';
+      x+='<h3>Maiores favorecidos (pessoa jurídica)</h3><div class="vcard">'+bars(de.favorecido,function(r){return MI(r[1])+' · '+r[2]+' liquidações'})+'</div>';
+      x+='<p class="vnote">Pagamentos a pessoas físicas ('+MI(de.pessoaFisica[0])+' em '+de.pessoaFisica[1]+' liquidações, folha e outros) não são identificados, por proteção de dados (LGPD).</p>';
+    }
+    if(p){
+      x+='<h3>Folha de pagamento: '+MESL[p.mes]+'/'+d.ano+'</h3><div class="vsum"><div><b>'+nf(p.vinculos,0)+'</b>vínculos</div><div><b>'+MI(p.folhaBruta)+'</b>folha bruta do mês</div></div>';
+      x+='<div class="mcols"><div class="vcard"><h4>Por regime</h4>'+bars(p.regime.map(function(r){return [r[0],r[2],r[1]]}),function(r){return MI(r[1])+' · '+nf(r[2],0)+' vínculos'})+'</div><div class="vcard"><h4>Por secretaria ou lotação</h4>'+bars(p.secretaria.map(function(r){return [r[0],r[2],r[1]]}),function(r){return MI(r[1])+' · '+nf(r[2],0)})+'</div></div>';
+      x+='<div class="mcols"><div class="vcard"><h4>10 cargos de maior folha</h4>'+bars(p.cargoFolha.map(function(r){return [r[0],r[2],r[1]]}),function(r){return MI(r[1])+' · '+nf(r[2],0)})+'</div><div class="vcard"><h4>10 cargos com mais vínculos</h4>'+bars(p.cargoQtd.map(function(r){return [r[0],r[1]]}),function(r){return nf(r[1],0)+' vínculos'})+'</div></div>';
+      x+='<p class="vnote">Folha bruta do portal não é igual à despesa de pessoal da LRF. Sem nomes de servidores nesta tela.</p>';
+    }
+    x+='<h3>Como o município contrata</h3>';
+    if(d.modalidade&&d.modalidade.length)x+='<div class="vcard"><h4>Licitações por modalidade (valor homologado)</h4>'+bars(d.modalidade.map(function(r){return [r[0],r[2],r[1]]}),function(r){return MI(r[1])+' · '+r[2]+' processos'})+'</div>';
+    var ph=[['Unidade'],['Modalidade'],['Nº'],['Objeto'],['Situação'],['Valor',1]];
+    var ch=[['Nº'],['Assinatura'],['Favorecido'],['Categoria'],['Objeto'],['Situação'],['Valor',1]];
+    var pm=function(r){return [esc(r[0]),esc(r[1]),esc(r[2]),esc(r[3]),esc(r[4]),'']};
+    var cm=function(r){return [esc(r[0]),DT(r[1]),esc(r[2]),esc(r[3]),esc(r[4]),esc(r[5]),'']};
+    LATE=[['pl',ph,d.lic||[],pm],['pd',ph,d.dis||[],pm],['pc',ch,d.ctr||[],cm],['pa',ch,d.ata||[],cm]];
+    x+='<h4 style="margin:16px 0 6px">Licitações ('+(T.lic||0)+')</h4>'+ptab('pl');
+    x+='<h4 style="margin:16px 0 6px">Dispensas e inexigibilidades ('+(T.disp||0)+')</h4>'+ptab('pd');
+    x+='<h4 style="margin:16px 0 6px">Contratos ('+(T.ctr||0)+')</h4>'+ptab('pc');
+    x+='<h4 style="margin:16px 0 6px">Atas de registro de preço ('+(T.atas||0)+')</h4>'+ptab('pa');
+    x+='<p class="vnote">Todos os registros de 2026 publicados no portal, do maior para o menor valor. Valor de ata é teto registrado, não gasto. Licitações trazem o valor homologado.</p>';
+    return x;
+  };
+  var fim=function(d){
+    var lk=host?'<a href="https://'+esc(host)+'/" target="_blank" rel="noopener">Portal da Transparência de '+esc(nome)+'</a> · ':'';
+    return h+show(d)+'<p class="vnote" style="margin-top:18px">Fontes: '+lk+'Painel de Controle do TCE-ES.</p>';
+  };
+  $('#munBody').innerHTML=h+'<div class="vload">Carregando dados do município...</div>';
+  get('dados/mun/'+code+'.json').then(function(d){LATE=[];$('#munBody').innerHTML=fim(d);LATE.forEach(function(a){pinit(a[0],a[1],a[2],a[3])})},function(){$('#munBody').innerHTML=fim(null)});
+}
+function ajustaTopo(code,nome){
+  if(!H1){H1=$('#topo h1');EY=$('#topo .eyebrow')}
+  var ib=code===IB, flag=$('#topo .vflagb');
+  if(H1)H1.textContent=ib?'Ibatiba/ES: painel de fiscalização 2026':nome+'/ES: dados do município 2026';
+  if(EY)EY.textContent=ib?'Sala do Vereador · Piloto Ibatiba/ES':'Espírito Santo';
+  if(flag)flag.style.display=ib?'':'none';
+  var bt=document.querySelectorAll('#topo .btns a');
+  if(bt.length>=2){
+    bt[0].textContent=ib?'Ver o mapa do ES':'Ver os dados do município';bt[0].setAttribute('href',ib?'#mapa':'#munView');
+    bt[1].textContent=ib?'Folha de pagamento':'Selecionar município';bt[1].setAttribute('href',ib?'#pessoal':'#munBar');
+  }
+  var ld=document.querySelector('#topo .lead');if(ld){if(!ld.getAttribute('data-o'))ld.setAttribute('data-o',ld.textContent);ld.textContent=ib?ld.getAttribute('data-o'):'Indicadores do TCE-ES, receitas e despesas, folha de pagamento, licitações, dispensas, contratos e atas do portal da transparência do município.'}
+  var cr=document.querySelectorAll('#topo .cred li');
+  if(cr.length>=2){var t=cr[1].lastChild;if(t&&t.nodeType===3)t.nodeValue=ib?'Portal da Transparência de Ibatiba':'Portal da Transparência do município'}
+}
+function selecionar(code,push){
+  var row=null;MAP.rows.forEach(function(r){if(r[0]===code)row=r});
+  var nome=row?row[1]:'Ibatiba', ib=code===IB;
+  CURADO.forEach(function(id){var e=document.getElementById(id);if(e)e.hidden=!ib});
+  $('#munView').hidden=ib;
+  ajustaTopo(code,nome);
+  if(!ib)view(code);
+  var el=document.querySelector('#editais .lead');
+  if(el){if(!el.getAttribute('data-o'))el.setAttribute('data-o',el.textContent);el.textContent=ib?el.getAttribute('data-o'):'Oportunidades abertas no PNCP (saúde), já filtradas para o município. Troque o município, a modalidade, a categoria ou o prazo.'}
+  var ed=$('#edMun');
+  if(ed){for(var i=0;i<ed.options.length;i++){if(ed.options[i].text.toLowerCase().indexOf(nome.toLowerCase())===0||ed.options[i].value.toLowerCase()===nome.toLowerCase()){ed.selectedIndex=i;ed.dispatchEvent(new Event('change'));break}}}
+  if(push&&window.history&&history.replaceState){history.replaceState(null,'',ib?location.pathname:location.pathname+'?m='+code)}
+}
+document.addEventListener('input',function(e){var id=e.target&&e.target.getAttribute&&e.target.getAttribute('data-pt');if(id&&PG[id]){PG[id].q=e.target.value;PG[id].n=30;pdraw(id)}});
+document.addEventListener('click',function(e){var id=e.target&&e.target.getAttribute&&e.target.getAttribute('data-more');if(id&&PG[id]){PG[id].n+=30;pdraw(id)}});
+Promise.all([get('dados/mapa.json'),get('dados/mun/_indice.json').catch(function(){return null})]).then(function(r){
+  MAP=r[0];IDX=r[1];
+  var s=$('#selMun'),rows=MAP.rows.slice().sort(function(a,b){return a[1].localeCompare(b[1],'pt-BR')});
+  s.innerHTML=rows.map(function(m){
+    var meta=IDX&&IDX.municipios&&IDX.municipios[m[0]];
+    var tag=(m[0]===IB)?' (análise completa)':(IDX?(meta&&meta.portal?'':' (sem portal integrado)'):'');
+    return '<option value="'+m[0]+'">'+esc(m[1])+tag+'</option>'}).join('');
+  var q=(location.search.match(/[?&]m=(\d{7})/)||[])[1];
+  var ini=q&&MAP.rows.some(function(x){return String(x[0])===q})?+q:IB;
+  s.value=String(ini);
+  s.onchange=function(){selecionar(+s.value,true)};
+  if(ini!==IB){setTimeout(function(){selecionar(ini,false)},600)}
+}).catch(function(){});
+})();
+</script>
+</body>
+</html>

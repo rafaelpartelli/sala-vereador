@@ -1,0 +1,48 @@
+name: Coletar dados dos municípios (Sala do Vereador)
+
+on:
+  schedule:
+    # 20:00 em Brasília = 23:00 UTC (o cron do GitHub é sempre em UTC)
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+    inputs:
+      municipios:
+        description: "Municípios separados por vírgula, sem acento (vazio = todos)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: coletar-municipios
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 170
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Rodar o robô
+        timeout-minutes: 150
+        env:
+          TZ: America/Sao_Paulo
+          MUN: ${{ github.event.inputs.municipios }}
+        run: python3 robo/coletar_municipios.py "$MUN"
+      - name: Publicar os dados no repositório
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name  "robo-sala-vereador"
+          git config user.email "robo-sala-vereador@users.noreply.github.com"
+          git add dados
+          if git diff --cached --quiet; then echo "Sem mudanças."; exit 0; fi
+          git commit -m "dados: municípios $(TZ=America/Sao_Paulo date '+%d/%m/%Y %H:%M')"
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then exit 0; fi
+            sleep 10
+          done
+          exit 1
