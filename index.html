@@ -219,6 +219,9 @@ button.vk:hover{box-shadow:0 6px 18px rgba(12,50,111,.14)}
 .mtile p{margin:4px 0 0;font-size:13px;color:var(--mut)}
 .mcols{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
 .mand{background:#EEF3FB;border-radius:10px;padding:12px 14px;font-size:14px;margin:12px 0}
+
+.vbadge{display:inline-block;margin:0 0 12px;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4);color:#fff;font-size:13px;font-weight:700}
+.vfil{margin:0 0 10px}.vfil select{max-width:100%}
 </style>
 </head>
 <body>
@@ -260,6 +263,7 @@ button.vk:hover{box-shadow:0 6px 18px rgba(12,50,111,.14)}
   <div class="wrap hero-in">
     <div class="hero-text">
       <p class="eyebrow">Sala do Vereador · Piloto Ibatiba/ES</p>
+      <span class="badge vbadge" id="hdrUpd" role="status">Atualizado em ...</span>
       <h1>Ibatiba/ES: painel de fiscalização 2026</h1>
       <p class="lead">Indicadores do TCE-ES, folha de pagamento, receitas e despesas, licitações, atas e editais do portal da transparência, em uma única tela para o vereador saber onde perguntar.</p>
       <div class="btns">
@@ -601,7 +605,8 @@ function renderKpis(){
 function renderUpd(){
   var g=new Date(D.gerado);
   var gs=isNaN(g)?'':g.toLocaleDateString('pt-BR')+' às '+g.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-  $('#upd').innerHTML='<b>Atualização:</b> indicadores do TCE-ES acumulados até outubro/2026; portal de Ibatiba lido em '+esc(gs)+' (novembro parcial). Nesta fase piloto a atualização é feita sob demanda; a rotina diária automática é a próxima etapa. Valores sujeitos a revisão pela fonte oficial.';
+  $('#upd').innerHTML='<b>Atualização:</b> indicadores do TCE-ES acumulados até outubro/2026; portal de Ibatiba lido em '+esc(gs)+' (novembro parcial). Os demais municípios são atualizados pelo robô diário. Valores sujeitos a revisão pela fonte oficial.';
+  if(typeof selo==='function'&&location.search.indexOf('m=')<0)selo(D.gerado);
   $('#fontesNota').textContent='Diferenças entre o portal do município e o painel do TCE-ES são esperadas por critério contábil e data de corte. Em caso de divergência, vale a fonte oficial na data da consulta.';
 }
 
@@ -1225,18 +1230,36 @@ function tab(head,rows){
 var PG={};
 function ptab(id,head,rows,nome){
   PG[id]={head:head,rows:rows,n:30,q:''};
-  return '<div class="vctl"><label for="q_'+id+'">Buscar</label><input id="q_'+id+'" type="search" placeholder="objeto, nº ou favorecido" data-pt="'+id+'"></div><div class="vsum" id="s_'+id+'"></div><div id="t_'+id+'"></div><p class="vmore" id="m_'+id+'"></p>';
+  return '<div class="vctl"><label for="q_'+id+'">Buscar</label><input id="q_'+id+'" type="search" placeholder="objeto, nº ou favorecido" data-pt="'+id+'"></div><div class="vctl vfil" id="f_'+id+'"></div><div class="vsum" id="s_'+id+'"></div><div id="t_'+id+'"></div><p class="vmore" id="m_'+id+'"></p>';
 }
 function pdraw(id){
-  var P=PG[id],q=P.q.toLowerCase(),rows=P.rows.filter(function(r){return !q||r.join(' ').toLowerCase().indexOf(q)>=0});
-  var vi=P.head.length-1,tot=0;rows.forEach(function(r){tot+=r.vv});
+  var P=PG[id],q=P.q.toLowerCase(),F=P.f||{};
+  var rows=P.rows.filter(function(r){
+    for(var k in F){if(F[k]!==''&&String(r.raw[k])!==F[k])return false}
+    return !q||r.join(' ').toLowerCase().indexOf(q)>=0});
+  if(P.ord==='v')rows=rows.slice().sort(function(a,b){return b.vv-a.vv});
+  else if(P.ord==='m')rows=rows.slice().sort(function(a,b){return a.vv-b.vv});
+  var tot=0;rows.forEach(function(r){tot+=r.vv});
   $('#s_'+id).innerHTML='<div><b>'+rows.length+'</b>registros</div><div><b>'+MI(tot)+'</b>valor somado</div>';
   $('#t_'+id).innerHTML=tab(P.head,rows.slice(0,P.n).map(function(r){return r.cells}));
   $('#m_'+id).innerHTML=rows.length>P.n?'Mostrando '+P.n+' de '+rows.length+'. <button type="button" data-more="'+id+'">Mostrar mais</button>':(rows.length?'Mostrando todos os '+rows.length+' registros.':'');
 }
-function pinit(id,head,list,mk){
-  var rows=list.map(function(r){var c=mk(r);var o=c.slice();o.cells=c.map(function(x,i){return i===c.length-1?'<b>'+BRL(r[r.length-1])+'</b>':x});o.vv=r[r.length-1];return o});
-  PG[id]={head:head,rows:rows,n:30,q:''};pdraw(id);
+function pinit(id,head,list,mk,fac){
+  var rows=list.map(function(r){var c=mk(r);var o=c.slice();o.cells=c.map(function(x,i){return i===c.length-1?'<b>'+BRL(r[r.length-1])+'</b>':x});o.vv=r[r.length-1];o.raw=r;return o});
+  PG[id]={head:head,rows:rows,n:30,q:'',f:{},ord:'v'};
+  var box=$('#f_'+id);
+  if(box&&rows.length){
+    var h='';
+    (fac||[]).forEach(function(f){
+      var seen={},vals=[];list.forEach(function(r){var v=r[f[1]];if(v&&!seen[v]){seen[v]=1;vals.push(v)}});
+      vals.sort(function(a,b){return String(a).localeCompare(String(b),'pt-BR')});
+      if(vals.length<2)return;
+      h+='<label for="f_'+id+'_'+f[1]+'">'+esc(f[0])+'</label><select id="f_'+id+'_'+f[1]+'" data-pf="'+id+'" data-pi="'+f[1]+'"><option value="">Todas</option>'+vals.map(function(v){return '<option value="'+esc(String(v))+'">'+esc(String(v).length>60?String(v).slice(0,57)+'...':String(v))+'</option>'}).join('')+'</select>';
+    });
+    h+='<label for="o_'+id+'">Ordem</label><select id="o_'+id+'" data-po="'+id+'"><option value="v">Maior valor</option><option value="m">Menor valor</option><option value="">Ordem do portal</option></select>';
+    box.innerHTML=h;
+  }
+  pdraw(id);
 }
 function rk(ci,code){var me=null;MAP.rows.forEach(function(r){if(r[0]===code)me=r[ci]});var n=1;MAP.rows.forEach(function(r){if(r[ci]>me)n++});return n}
 function tile(t,big,st,cls,p){return '<div class="mtile"><h4>'+esc(t)+'</h4><div class="big">'+big+'</div><span class="st '+cls+'">'+esc(st)+'</span><p>'+p+'</p></div>'}
@@ -1284,12 +1307,13 @@ function view(code){
     var ch=[['Nº'],['Assinatura'],['Favorecido'],['Categoria'],['Objeto'],['Situação'],['Valor',1]];
     var pm=function(r){return [esc(r[0]),esc(r[1]),esc(r[2]),esc(r[3]),esc(r[4]),'']};
     var cm=function(r){return [esc(r[0]),DT(r[1]),esc(r[2]),esc(r[3]),esc(r[4]),esc(r[5]),'']};
-    LATE=[['pl',ph,d.lic||[],pm],['pd',ph,d.dis||[],pm],['pc',ch,d.ctr||[],cm],['pa',ch,d.ata||[],cm]];
+    var fp=[['Unidade',0],['Modalidade',1],['Situação',4]],fc=[['Categoria',3],['Situação',5]];
+    LATE=[['pl',ph,d.lic||[],pm,fp],['pd',ph,d.dis||[],pm,fp],['pc',ch,d.ctr||[],cm,fc],['pa',ch,d.ata||[],cm,fc]];
     x+='<h4 style="margin:16px 0 6px">Licitações ('+(T.lic||0)+')</h4>'+ptab('pl');
     x+='<h4 style="margin:16px 0 6px">Dispensas e inexigibilidades ('+(T.disp||0)+')</h4>'+ptab('pd');
     x+='<h4 style="margin:16px 0 6px">Contratos ('+(T.ctr||0)+')</h4>'+ptab('pc');
     x+='<h4 style="margin:16px 0 6px">Atas de registro de preço ('+(T.atas||0)+')</h4>'+ptab('pa');
-    x+='<p class="vnote">Todos os registros de 2026 publicados no portal, do maior para o menor valor. Valor de ata é teto registrado, não gasto. Licitações trazem o valor homologado.</p>';
+    x+='<p class="vnote">Todos os registros de 2026 publicados no portal, com filtros por unidade, modalidade, situação e categoria. Valor de ata é teto registrado, não gasto. Licitações trazem o valor homologado.</p>';
     return x;
   };
   var fim=function(d){
@@ -1297,8 +1321,15 @@ function view(code){
     return h+show(d)+'<p class="vnote" style="margin-top:18px">Fontes: '+lk+'Painel de Controle do TCE-ES.</p>';
   };
   $('#munBody').innerHTML=h+'<div class="vload">Carregando dados do município...</div>';
-  get('dados/mun/'+code+'.json').then(function(d){LATE=[];$('#munBody').innerHTML=fim(d);LATE.forEach(function(a){pinit(a[0],a[1],a[2],a[3])})},function(){$('#munBody').innerHTML=fim(null)});
+  get('dados/mun/'+code+'.json').then(function(d){selo(d&&d.gerado);LATE=[];$('#munBody').innerHTML=fim(d);LATE.forEach(function(a){pinit(a[0],a[1],a[2],a[3],a[4])})},function(){selo(null);$('#munBody').innerHTML=fim(null)});
 }
+function selo(iso){
+  var b=$('#hdrUpd');if(!b)return;
+  var g=new Date(iso);
+  if(!iso||isNaN(g)){b.textContent='Atualização: aguardando a primeira leitura automática';return}
+  b.textContent='Atualizado em '+g.toLocaleDateString('pt-BR')+' às '+g.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+window.selo=selo;
 function ajustaTopo(code,nome){
   if(!H1){H1=$('#topo h1');EY=$('#topo .eyebrow')}
   var ib=code===IB, flag=$('#topo .vflagb');
@@ -1320,7 +1351,7 @@ function selecionar(code,push){
   CURADO.forEach(function(id){var e=document.getElementById(id);if(e)e.hidden=!ib});
   $('#munView').hidden=ib;
   ajustaTopo(code,nome);
-  if(!ib)view(code);
+  if(!ib)view(code);else get('dados/ibatiba.json').then(function(d){selo(d.gerado)},function(){selo(null)});
   var el=document.querySelector('#editais .lead');
   if(el){if(!el.getAttribute('data-o'))el.setAttribute('data-o',el.textContent);el.textContent=ib?el.getAttribute('data-o'):'Oportunidades abertas no PNCP (saúde), já filtradas para o município. Troque o município, a modalidade, a categoria ou o prazo.'}
   var ed=$('#edMun');
@@ -1328,6 +1359,7 @@ function selecionar(code,push){
   if(push&&window.history&&history.replaceState){history.replaceState(null,'',ib?location.pathname:location.pathname+'?m='+code)}
 }
 document.addEventListener('input',function(e){var id=e.target&&e.target.getAttribute&&e.target.getAttribute('data-pt');if(id&&PG[id]){PG[id].q=e.target.value;PG[id].n=30;pdraw(id)}});
+document.addEventListener('change',function(e){var t=e.target,g=t&&t.getAttribute&&t.getAttribute.bind(t);if(!g)return;var id=g('data-pf');if(id&&PG[id]){PG[id].f[g('data-pi')]=t.value;PG[id].n=30;pdraw(id);return}id=g('data-po');if(id&&PG[id]){PG[id].ord=t.value;PG[id].n=30;pdraw(id)}});
 document.addEventListener('click',function(e){var id=e.target&&e.target.getAttribute&&e.target.getAttribute('data-more');if(id&&PG[id]){PG[id].n+=30;pdraw(id)}});
 Promise.all([get('dados/mapa.json'),get('dados/mun/_indice.json').catch(function(){return null})]).then(function(r){
   MAP=r[0];IDX=r[1];
