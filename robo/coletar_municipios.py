@@ -132,8 +132,9 @@ def main():
     linhas = [(r[1], r[0]) for r in mapa["rows"] if not alvo or slug(r[1]) in alvo]
     os.makedirs(os.path.join(RAIZ, "dados", "mun"), exist_ok=True)
     indice = {}
-    try: indice = json.load(open(os.path.join(RAIZ, "dados", "mun", "_indice.json"), encoding="utf-8"))
+    try: indice = json.load(open(os.path.join(RAIZ, "dados", "mun", "_indice.json"), encoding="utf-8")).get("municipios", {})
     except Exception: pass
+    indice = {k: v for k, v in indice.items() if k.isdigit() and isinstance(v, dict)}  # descarta chaves de versões antigas
     def uma(x):
         nome, ibge = x
         try: return nome, ibge, coletar(nome, ibge)
